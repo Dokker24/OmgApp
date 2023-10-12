@@ -70,7 +70,9 @@ fun Monday_Week(navController: NavController) {
 
 @Composable
 fun ListItem(item: Monday_Entity, onDelete: (Monday_Entity) -> Unit) {
-    Card(modifier = Modifier.fillMaxWidth().padding(top = 10.dp)) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 10.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(item.lesson, fontSize = 20.sp, modifier = Modifier.padding(start = 10.dp))
             Spacer(modifier = Modifier.weight(1f))

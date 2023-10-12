@@ -16,7 +16,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,6 +27,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -35,11 +39,14 @@ import ru.den.omg.ui.theme.OmgTheme
 fun HomeScreen(
     navController: NavController
     ) {
-    OmgTheme {
-        Surface {
-            Scaffold(bottomBar = { ru.den.omg.navigations.bottomNavigation.BottomAppBar(
-                navController = navController
-            ) }) {
+        Surface(
+        ) {
+            Scaffold(
+                bottomBar = { ru.den.omg.navigations.bottomNavigation.BottomAppBar(
+                navController = navController,
+            ) },
+                containerColor = Color(0xFF332A2A)
+            ) {
                 Column {
                     Text(text = "Главная",
                         fontSize = 35.sp,
@@ -51,7 +58,7 @@ fun HomeScreen(
             }
         }
     }
-}
+
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -72,7 +79,10 @@ fun Home() {
         flingBehavior = snapFlingBehavior
     ) {
         item {
-            Card(
+            OutlinedCard (
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF6200EE)
+                ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 400.dp)
                     .padding(10.dp)
@@ -86,7 +96,10 @@ fun Home() {
             }
         }
         item {
-            Card(
+            OutlinedCard(
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF6200EE)
+                ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 400.dp)
                     .padding(10.dp)
@@ -100,7 +113,10 @@ fun Home() {
             }
         }
         item {
-            Card(
+            OutlinedCard(
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF6200EE)
+                ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 400.dp)
                     .padding(10.dp)
@@ -114,7 +130,10 @@ fun Home() {
             }
         }
         item {
-            Card(
+            OutlinedCard(
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF6200EE)
+                ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 400.dp)
                     .padding(10.dp)
@@ -128,7 +147,10 @@ fun Home() {
             }
         }
         item {
-            Card(
+            OutlinedCard(
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFF6200EE)
+                ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 400.dp)
                     .padding(10.dp)
@@ -142,7 +164,9 @@ fun Home() {
             }
         }
         item {
-            Card(
+            OutlinedCard(colors = CardDefaults.cardColors(
+                containerColor = Color(0xFF6200EE)
+            ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 400.dp)
                     .padding(10.dp)

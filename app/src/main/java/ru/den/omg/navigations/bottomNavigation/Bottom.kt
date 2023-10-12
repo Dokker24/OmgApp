@@ -31,7 +31,7 @@ fun BottomAppBar(navController: NavController) {
     var selectedItem by remember { mutableIntStateOf(0) }
 
 
-    NavigationBar(containerColor = Color.Transparent) {
+    NavigationBar(containerColor = Color(0xFF6200EE)) {
         list.forEachIndexed { index, item ->
             NavigationBarItem(
                 selected = currentRoute == item.route,
