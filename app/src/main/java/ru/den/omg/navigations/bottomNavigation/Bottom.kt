@@ -5,6 +5,8 @@ package ru.den.omg.navigations.bottomNavigation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -31,9 +33,14 @@ fun BottomAppBar(navController: NavController) {
     var selectedItem by remember { mutableIntStateOf(0) }
 
 
-    NavigationBar(containerColor = Color(0xFF6200EE)) {
+    NavigationBar(containerColor = Color.Transparent.copy(alpha = 0.8f)) {
         list.forEachIndexed { index, item ->
             NavigationBarItem(
+                colors = NavigationBarItemDefaults.colors(
+                    unselectedIconColor = Color.Gray,
+                    unselectedTextColor = Color.Gray,
+                    indicatorColor = Color.Blue
+                ),
                 selected = currentRoute == item.route,
                 onClick = {
                     selectedItem = index

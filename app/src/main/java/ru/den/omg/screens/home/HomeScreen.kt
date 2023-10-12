@@ -7,6 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,10 +20,13 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
@@ -35,6 +39,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import ru.den.omg.ui.theme.OmgTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController
@@ -42,19 +47,19 @@ fun HomeScreen(
         Surface(
         ) {
             Scaffold(
+                topBar = {
+                         TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+                             containerColor = Color.Transparent.copy(alpha = 0.8f)
+                         ),
+                             title = { Text(text = "Главная", fontSize = 35.sp) }
+                         )
+                },
                 bottomBar = { ru.den.omg.navigations.bottomNavigation.BottomAppBar(
                 navController = navController,
             ) },
-                containerColor = Color(0xFF332A2A)
+                containerColor = Color(0xFF000000)
             ) {
-                Column {
-                    Text(text = "Главная",
-                        fontSize = 35.sp,
-                        modifier = Modifier
-                        .padding(start = 15.dp, top = 5.dp, bottom = 20.dp))
-                    Home()
-                }
-                it
+                Home(it)
             }
         }
     }
@@ -62,7 +67,7 @@ fun HomeScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Home() {
+fun Home(top: PaddingValues) {
     val FONT_SIZE = 20
     var state = rememberLazyListState()
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = state)
@@ -74,9 +79,10 @@ fun Home() {
     val listFriday = view.friday.collectAsState(initial = emptyList()).value
     val listSaturday = view.saturday.collectAsState(initial = emptyList()).value
 
-    LazyRow(
+    LazyColumn(
         state = state,
-        flingBehavior = snapFlingBehavior
+        flingBehavior = snapFlingBehavior,
+        modifier = Modifier.padding(top = top.calculateTopPadding())
     ) {
         item {
             OutlinedCard (
@@ -84,7 +90,7 @@ fun Home() {
                     containerColor = Color(0xFF6200EE)
                 ),
                 modifier = Modifier
-                    .size(width = 350.dp, height = 400.dp)
+                    .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
             ) {
                 Textap("Понедельник")
@@ -101,7 +107,7 @@ fun Home() {
                     containerColor = Color(0xFF6200EE)
                 ),
                 modifier = Modifier
-                    .size(width = 350.dp, height = 400.dp)
+                    .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
             ) {
                 Textap("Вторник")
@@ -118,7 +124,7 @@ fun Home() {
                     containerColor = Color(0xFF6200EE)
                 ),
                 modifier = Modifier
-                    .size(width = 350.dp, height = 400.dp)
+                    .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
             ) {
                 Textap(text = "Среда")
@@ -135,7 +141,7 @@ fun Home() {
                     containerColor = Color(0xFF6200EE)
                 ),
                 modifier = Modifier
-                    .size(width = 350.dp, height = 400.dp)
+                    .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
             ) {
                 Textap(text = "Четверг")
@@ -152,7 +158,7 @@ fun Home() {
                     containerColor = Color(0xFF6200EE)
                 ),
                 modifier = Modifier
-                    .size(width = 350.dp, height = 400.dp)
+                    .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
             ) {
                 Textap(text = "Пятница")
@@ -168,8 +174,8 @@ fun Home() {
                 containerColor = Color(0xFF6200EE)
             ),
                 modifier = Modifier
-                    .size(width = 350.dp, height = 400.dp)
-                    .padding(10.dp)
+                    .size(width = 350.dp, height = 470.dp)
+                    .padding(10.dp, bottom = 50.dp)
             ) {
                 Textap(text = "Суббота")
                 LazyColumn{
