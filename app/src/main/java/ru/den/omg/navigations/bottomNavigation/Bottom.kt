@@ -33,7 +33,7 @@ fun BottomAppBar(navController: NavController) {
     var selectedItem by remember { mutableIntStateOf(0) }
 
 
-    NavigationBar(containerColor = Color.Transparent.copy(alpha = 0.8f)) {
+    NavigationBar(containerColor = Color.Transparent.copy(alpha = 0.6f)) {
         list.forEachIndexed { index, item ->
             NavigationBarItem(
                 colors = NavigationBarItemDefaults.colors(

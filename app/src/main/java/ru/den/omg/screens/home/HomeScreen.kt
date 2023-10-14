@@ -37,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import ru.den.omg.navigations.Screens
+import ru.den.omg.time.Time
 import ru.den.omg.ui.theme.OmgTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,7 +61,7 @@ fun HomeScreen(
             ) },
                 containerColor = Color(0xFF000000)
             ) {
-                Home(it)
+                Home(it, navController)
             }
         }
     }
@@ -67,7 +69,7 @@ fun HomeScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Home(top: PaddingValues) {
+fun Home(top: PaddingValues, navController: NavController) {
     val FONT_SIZE = 20
     var state = rememberLazyListState()
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = state)
@@ -92,6 +94,10 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable {
+                        Time.time()
+                        navController.navigate(Screens.Week.route)
+                    }
             ) {
                 Textap("Понедельник")
                 LazyColumn{
@@ -109,6 +115,7 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable { navController.navigate(Screens.Tuesday.route) }
             ) {
                 Textap("Вторник")
                 LazyColumn{
@@ -126,6 +133,7 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable { navController.navigate(Screens.Wednesday.route) }
             ) {
                 Textap(text = "Среда")
                 LazyColumn{
@@ -143,6 +151,7 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable { navController.navigate(Screens.Thursday.route) }
             ) {
                 Textap(text = "Четверг")
                 LazyColumn{
@@ -160,6 +169,7 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable { navController.navigate(Screens.Friday.route) }
             ) {
                 Textap(text = "Пятница")
                 LazyColumn{
@@ -176,6 +186,7 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp, bottom = 50.dp)
+                    .clickable { navController.navigate(Screens.Saturday.route) }
             ) {
                 Textap(text = "Суббота")
                 LazyColumn{

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,6 +42,7 @@ fun Thursday_Week(navController: NavController) {
             bottomBar = { BottomAppBar(navController = navController) }
         ) {
             Column {
+                Text("Четверг", fontSize = 30.sp, modifier = Modifier.padding(10.dp))
                 Row {
                     TextField(value = thuViewModel.newText,
                         onValueChange = {string ->
@@ -74,7 +77,10 @@ fun Thursday_Week(navController: NavController) {
 fun ListItem(item: Thursday_Entity, onDelete: (Thursday_Entity) -> Unit) {
     Card(modifier = Modifier
         .fillMaxWidth()
-        .padding(top = 10.dp)) {
+        .padding(top = 10.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF6200EE)
+        )) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(item.lesson, fontSize = 20.sp, modifier = Modifier.padding(start = 10.dp))
             Spacer(modifier = Modifier.weight(1f))
