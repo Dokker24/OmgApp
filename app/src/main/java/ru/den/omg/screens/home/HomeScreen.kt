@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import ru.den.omg.data.entity.Monday_Entity
 import ru.den.omg.navigations.Screens
 import ru.den.omg.time.Time
 import ru.den.omg.ui.theme.OmgTheme
@@ -81,6 +82,7 @@ fun Home(top: PaddingValues, navController: NavController) {
     val listFriday = view.friday.collectAsState(initial = emptyList()).value
     val listSaturday = view.saturday.collectAsState(initial = emptyList()).value
 
+
     LazyColumn(
         state = state,
         flingBehavior = snapFlingBehavior,
@@ -95,7 +97,6 @@ fun Home(top: PaddingValues, navController: NavController) {
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
                     .clickable {
-                        Time.time()
                         navController.navigate(Screens.Week.route)
                     }
             ) {
