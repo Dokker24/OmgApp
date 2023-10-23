@@ -17,18 +17,25 @@ import ru.den.omg.data.entity.Monday_Entity
 class MainViewModel(val database: Mine_Data24) : ViewModel() {
     val itemList = database.dao.getItem()
     var newText by mutableStateOf("")
+    var newTimeBefore by mutableStateOf("8:00")
+    var newTimeAfter by mutableStateOf("8:45")
     var monday: Monday_Entity? = null
 
+
     fun insertItem() = viewModelScope.launch {
-        val lesson = monday?.copy(lesson = newText) ?: Monday_Entity(lesson = newText, time = "8:00-8:45")
+        val lesson = monday?.copy(lesson = newText) ?: Monday_Entity(lesson = newText, time = "$newTimeBefore - $newTimeAfter")
         database.dao.insertItem(lesson)
         monday = null
         newText = ""
+
     }
+
 
     fun deleteItem(item: Monday_Entity) = viewModelScope.launch {
         database.dao.deleteItem(item)
     }
+
+
 
     companion object {
         val factory : ViewModelProvider.Factory = object : ViewModelProvider.Factory {
@@ -39,6 +46,14 @@ class MainViewModel(val database: Mine_Data24) : ViewModel() {
             ): T {
                 val database = (checkNotNull(extras[APPLICATION_KEY]) as App).data
                 return MainViewModel(database) as T
+            }
+        }
+        fun isNumeric(str: String): Boolean {
+            return try {
+                str.toDouble()
+                true
+            } catch (e: NumberFormatException) {
+                false
             }
         }
     }

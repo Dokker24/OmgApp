@@ -3,6 +3,7 @@ package ru.den.omg.screens.home
 
 
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -103,7 +104,7 @@ fun Home(top: PaddingValues, navController: NavController) {
                 Textap("Понедельник")
                 LazyColumn{
                     items(listMonday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson, it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -121,7 +122,7 @@ fun Home(top: PaddingValues, navController: NavController) {
                 Textap("Вторник")
                 LazyColumn{
                     items(listTuesday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson, it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -139,7 +140,7 @@ fun Home(top: PaddingValues, navController: NavController) {
                 Textap(text = "Среда")
                 LazyColumn{
                     items(listWednesday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson, it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -157,7 +158,7 @@ fun Home(top: PaddingValues, navController: NavController) {
                 Textap(text = "Четверг")
                 LazyColumn{
                     items(listThursday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson, it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -175,7 +176,7 @@ fun Home(top: PaddingValues, navController: NavController) {
                 Textap(text = "Пятница")
                 LazyColumn{
                     items(listFriday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson,it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -192,7 +193,7 @@ fun Home(top: PaddingValues, navController: NavController) {
                 Textap(text = "Суббота")
                 LazyColumn{
                     items(listSaturday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson,it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -206,7 +207,7 @@ fun Textap(text: String) {
 }
 
 @Composable
-fun Textup(text: String, font: Int) {
-    Text(text = text, fontSize = font.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp))
+fun Textup(textLesson: String, time: String,  font: Int) {
+    Text(text = "$textLesson\n$time", fontSize = font.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp))
     Divider()
 }

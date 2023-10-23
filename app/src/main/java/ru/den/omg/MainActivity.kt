@@ -1,8 +1,13 @@
 package ru.den.omg
 
+import android.annotation.SuppressLint
+import android.app.AlarmManager
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -14,7 +19,9 @@ import androidx.core.app.NotificationCompat
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import ru.den.omg.navigations.NavGraph
+import ru.den.omg.time.TimeReceiver
 import ru.den.omg.ui.theme.OmgTheme
+import java.util.Calendar
 import kotlin.coroutines.coroutineContext
 
 class MainActivity : ComponentActivity() {
@@ -26,16 +33,8 @@ class MainActivity : ComponentActivity() {
             "Time",
             NotificationManager.IMPORTANCE_DEFAULT
         )
-        val notificationManager = getSystemService(NotificationManager::class.java)
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
-
-        val notification = NotificationCompat.Builder(this, "Time_Notivication")
-            .setContentTitle("Уведомление")
-            .setContentText("Самый главный ден")
-            .setSmallIcon(R.mipmap.ic_launcher_round)
-            .build()
-        denis(notificationManager, notification)
-        
 
         setContent {
             OmgTheme {
@@ -52,6 +51,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-fun denis(notificationManager: NotificationManager, notification: Notification) {
-    notificationManager.notify(1337, notification)
-}

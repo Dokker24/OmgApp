@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
@@ -14,9 +16,11 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -30,6 +34,7 @@ import ru.den.omg.data.entity.Thursday_Entity
 import ru.den.omg.data.entity.Wednesday_Entity
 import ru.den.omg.navigations.bottomNavigation.BottomAppBar
 import ru.den.omg.ui.theme.OmgTheme
+import ru.den.omg.viewModels.MainViewModel
 import ru.den.omg.viewModels.ThursdayViewModel
 import ru.den.omg.viewModels.WednesdayViewModel
 
@@ -43,21 +48,61 @@ fun Thursday_Week(navController: NavController) {
         ) {
             Column {
                 Text("Четверг", fontSize = 30.sp, modifier = Modifier.padding(10.dp))
-                Row {
-                    TextField(value = thuViewModel.newText,
-                        onValueChange = {string ->
-                            thuViewModel.newText = string
+                Column {
+                    OutlinedTextField(value = thuViewModel.newText,
+                        onValueChange = { item ->
+                            thuViewModel.newText = item
                         }, label = { Text(text = "Введите урок") },
                         modifier = Modifier
-                            .padding(start = 5.dp, top = 5.dp))
-
-                    IconButton(
-                        onClick = {
-                            if (thuViewModel.newText != "") thuViewModel.insertItem()
+                            .fillMaxWidth()
+                            .padding(start = 5.dp, top = 5.dp, end = 5.dp),
+                        singleLine = true,
+                        shape = RoundedCornerShape(8.dp),
+                        trailingIcon = {
+                            IconButton(
+                                onClick = {
+                                    if (thuViewModel.newText != "") thuViewModel.insertItem()
+                                },
+                                modifier = Modifier
+                                    .padding(10.dp)
+                            ) {
+                                Icon(Icons.Default.Add, contentDescription = "Add")
+                            }
                         },
-                        modifier = Modifier
-                            .padding(10.dp)) {
-                        Icon(Icons.Default.Add, contentDescription = "Add")
+                        colors = TextFieldDefaults.colors(
+                            errorSuffixColor = Color.Red,
+                            errorCursorColor = Color.Red,
+                            errorIndicatorColor = Color.Red,
+                            errorLabelColor = Color.Red,
+                            errorLeadingIconColor = Color.Red,
+                            errorTrailingIconColor = Color.Red
+                        ),
+                        isError = MainViewModel.isNumeric(thuViewModel.newText)
+                    )
+                    Row {
+                        TextField(value = thuViewModel.newTimeBefore,
+                            onValueChange = { thuViewModel.newTimeBefore = it },
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledContainerColor = Color.Transparent,
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent
+                            ),
+                            modifier = Modifier.size(90.dp, 60.dp),
+                            singleLine = true)
+                        Text(" - ", fontSize = 20.sp, modifier = Modifier.padding(start = 0.dp, 20.dp))
+                        TextField(value = thuViewModel.newTimeAfter,
+                            onValueChange = { thuViewModel.newTimeAfter = it },
+                            colors = TextFieldDefaults.colors(
+                                focusedIndicatorColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                disabledLabelColor = Color.Transparent,
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent
+                            ),
+                            modifier = Modifier.size(120.dp, 60.dp),
+                            singleLine = true)
                     }
                 }
                 LazyColumn {

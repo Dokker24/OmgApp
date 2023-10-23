@@ -16,9 +16,11 @@ class SaturdayViewModel(val database: Mine_Data24) : ViewModel() {
     val itemList = database.dao.getItemSat()
     var newText by mutableStateOf("")
     var saturday: Saturday_Entity? = null
+    var newTimeBefore by mutableStateOf("8:00")
+    var newTimeAfter by mutableStateOf("8:45")
 
     fun insertItem() = viewModelScope.launch {
-        val lesson = saturday?.copy(lesson = newText) ?: Saturday_Entity(lesson = newText)
+        val lesson = saturday?.copy(lesson = newText) ?: Saturday_Entity(lesson = newText, time = "$newTimeBefore - $newTimeAfter")
         database.dao.insertItem(lesson)
         saturday = null
         newText = ""

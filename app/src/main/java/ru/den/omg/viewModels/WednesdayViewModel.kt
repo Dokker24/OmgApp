@@ -20,10 +20,12 @@ class WednesdayViewModel(val database: Mine_Data24) : ViewModel() {
     val itemList = database.dao.getItemWed()
     var newText by mutableStateOf("")
     var wed: Wednesday_Entity? = null
+    var newTimeBefore by mutableStateOf("8:00")
+    var newTimeAfter by mutableStateOf("8:45")
     val rainbowColors = listOf(Color.Cyan, Color.Green, Color.Red, Color.Yellow)
 
     fun insertItem() = viewModelScope.launch {
-        val lesson = wed?.copy(lesson = newText) ?: Wednesday_Entity(lesson = newText)
+        val lesson = wed?.copy(lesson = newText) ?: Wednesday_Entity(lesson = newText, time = "$newTimeBefore - $newTimeAfter")
         database.dao.insertItem(lesson)
         wed = null
         newText = ""
