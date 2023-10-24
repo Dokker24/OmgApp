@@ -8,5 +8,6 @@ import androidx.room.PrimaryKey
 data class Monday_Entity(
     @PrimaryKey(true) val id: Int? = null,
     val lesson: String,
-    @ColumnInfo(defaultValue = "") val time: String = ""
+    @ColumnInfo(defaultValue = "")
+    val time: String = ""
 )

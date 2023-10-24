@@ -23,7 +23,7 @@ class MainViewModel(val database: Mine_Data24) : ViewModel() {
 
 
     fun insertItem() = viewModelScope.launch {
-        val lesson = monday?.copy(lesson = newText) ?: Monday_Entity(lesson = newText, time = "$newTimeBefore - $newTimeAfter")
+        val lesson = monday?.copy(lesson = newText) ?: Monday_Entity(lesson = newText, time = "$newTimeBefore-$newTimeAfter")
         database.dao.insertItem(lesson)
         monday = null
         newText = ""

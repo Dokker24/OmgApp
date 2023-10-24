@@ -27,6 +27,7 @@ import ru.den.omg.data.entity.Wednesday_Entity
     ],
     exportSchema = true
     )
+
 abstract class Mine_Data24 : RoomDatabase() {
 
     abstract val dao: Dao

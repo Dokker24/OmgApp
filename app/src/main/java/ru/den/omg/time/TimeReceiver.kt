@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import ru.den.omg.R
+import ru.den.omg.data.entity.Monday_Entity
 import java.util.Calendar
 
 class TimeReceiver : BroadcastReceiver() {
@@ -26,14 +27,14 @@ class TimeReceiver : BroadcastReceiver() {
     }
 
     @SuppressLint("ScheduleExactAlarm")
-    fun startAlarm(context: Context, ) {
+    fun startAlarm(context: Context, item: Monday_Entity) {
 
-        calendar.set(Calendar.HOUR_OF_DAY, 15)
-        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.HOUR_OF_DAY, TimeForDatabase.timeAfterIntHour(item.time.split('-')[0]))
+        calendar.set(Calendar.MINUTE, TimeForDatabase.timeAfterIntMinute(item.time.split('-')[1]))
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, TimeReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, intent,
+        val pendingIntent = PendingIntent.getBroadcast(context, item.id ?: 1, intent,
             PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE)
         alarmManager.cancel(pendingIntent)
         alarmManager.setExact(

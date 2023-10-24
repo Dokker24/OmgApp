@@ -99,7 +99,8 @@ fun Home(top: PaddingValues, navController: NavController) {
                     .padding(10.dp)
                     .clickable {
                         navController.navigate(Screens.Week.route)
-                    }
+                    },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap("Понедельник")
                 LazyColumn{
@@ -117,7 +118,8 @@ fun Home(top: PaddingValues, navController: NavController) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
-                    .clickable { navController.navigate(Screens.Tuesday.route) }
+                    .clickable { navController.navigate(Screens.Tuesday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap("Вторник")
                 LazyColumn{
@@ -135,7 +137,8 @@ fun Home(top: PaddingValues, navController: NavController) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
-                    .clickable { navController.navigate(Screens.Wednesday.route) }
+                    .clickable { navController.navigate(Screens.Wednesday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap(text = "Среда")
                 LazyColumn{
@@ -153,7 +156,8 @@ fun Home(top: PaddingValues, navController: NavController) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
-                    .clickable { navController.navigate(Screens.Thursday.route) }
+                    .clickable { navController.navigate(Screens.Thursday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap(text = "Четверг")
                 LazyColumn{
@@ -171,7 +175,8 @@ fun Home(top: PaddingValues, navController: NavController) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
-                    .clickable { navController.navigate(Screens.Friday.route) }
+                    .clickable { navController.navigate(Screens.Friday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap(text = "Пятница")
                 LazyColumn{
@@ -188,7 +193,8 @@ fun Home(top: PaddingValues, navController: NavController) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp, bottom = 50.dp)
-                    .clickable { navController.navigate(Screens.Saturday.route) }
+                    .clickable { navController.navigate(Screens.Saturday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap(text = "Суббота")
                 LazyColumn{
