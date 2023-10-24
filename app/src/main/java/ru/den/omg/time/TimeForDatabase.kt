@@ -6,7 +6,7 @@ class TimeForDatabase {
             return time.split(':')[0].toInt()
         }
         fun timeAfterIntMinute(time: String): Int {
-            return time.split(':')[0].toInt()
+            return time.split(':')[1].toInt()
         }
     }
 }

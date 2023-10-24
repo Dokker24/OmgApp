@@ -1,5 +1,6 @@
 package ru.den.omg.navigations
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,7 +17,7 @@ import ru.den.omg.screens.week.Wednesday_Week
 import ru.den.omg.screens.week.WeekScreen
 
 @Composable
-fun NavGraph(navController: NavHostController) {
+fun NavGraph(navController: NavHostController, context: Context) {
     NavHost(navController = navController,
         startDestination = Screens.Home.route) {
 
@@ -27,7 +28,7 @@ fun NavGraph(navController: NavHostController) {
 
         // Экран внесения предметов
         composable(Screens.Week.route) {
-            Monday_Week(navController = navController)
+            Monday_Week(navController = navController, context = context)
         }
 
         // Экран расписания

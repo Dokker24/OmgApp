@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Omg</string>
+    <string name="delete">Удалить</string>
+    <string name="sendNotify">Уведомить</string>
 </resources>
