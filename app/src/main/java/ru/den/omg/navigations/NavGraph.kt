@@ -16,6 +16,9 @@ import ru.den.omg.screens.week.Tuesday_Week
 import ru.den.omg.screens.week.Wednesday_Week
 import ru.den.omg.screens.week.WeekScreen
 
+
+
+//Не забыть отправлять контекст экрана в другие скрины.
 @Composable
 fun NavGraph(navController: NavHostController, context: Context) {
     NavHost(navController = navController,
