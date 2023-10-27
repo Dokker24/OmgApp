@@ -5,10 +5,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -37,7 +43,23 @@ fun Settings_Screen(navController: NavController) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(text = "Оповещения о конце урока", fontSize = 15.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp, bottom = 20.dp))
                         Spacer(modifier = Modifier.weight(1f))
-                        Switch(checked = switch, onCheckedChange = { switch = !switch }, modifier = Modifier.padding(5.dp))
+                        Switch(
+                            checked = switch,
+                            onCheckedChange = { switch = !switch },
+                            thumbContent = {if (switch) {
+                                Icon(
+                                    imageVector = Icons.Filled.Check,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize)
+                                )
+                                                 } else {
+                                                        Icon(
+                                                            imageVector = Icons.Filled.Clear,
+                                                            contentDescription = null,
+                                                            modifier = Modifier.size(SwitchDefaults.IconSize)
+                                                        )
+                                                        }},
+                            modifier = Modifier.padding(5.dp))
                     }
                 }
                 it

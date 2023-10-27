@@ -3,6 +3,7 @@ package ru.den.omg.screens.home
 
 
 
+import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
@@ -37,6 +38,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import ru.den.omg.data.entity.Monday_Entity
+import ru.den.omg.navigations.Screens
+import ru.den.omg.time.Time
 import ru.den.omg.ui.theme.OmgTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,7 +63,7 @@ fun HomeScreen(
             ) },
                 containerColor = Color(0xFF000000)
             ) {
-                Home(it)
+                Home(it, navController)
             }
         }
     }
@@ -67,7 +71,7 @@ fun HomeScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Home(top: PaddingValues) {
+fun Home(top: PaddingValues, navController: NavController) {
     val FONT_SIZE = 20
     var state = rememberLazyListState()
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = state)
@@ -78,6 +82,7 @@ fun Home(top: PaddingValues) {
     val listThursday = view.thursday.collectAsState(initial = emptyList()).value
     val listFriday = view.friday.collectAsState(initial = emptyList()).value
     val listSaturday = view.saturday.collectAsState(initial = emptyList()).value
+
 
     LazyColumn(
         state = state,
@@ -92,11 +97,15 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable {
+                        navController.navigate(Screens.Week.route)
+                    },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap("Понедельник")
                 LazyColumn{
                     items(listMonday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson, it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -109,11 +118,13 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable { navController.navigate(Screens.Tuesday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap("Вторник")
                 LazyColumn{
                     items(listTuesday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson, it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -126,11 +137,13 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable { navController.navigate(Screens.Wednesday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap(text = "Среда")
                 LazyColumn{
                     items(listWednesday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson, it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -143,11 +156,13 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable { navController.navigate(Screens.Thursday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap(text = "Четверг")
                 LazyColumn{
                     items(listThursday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson, it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -160,11 +175,13 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .clickable { navController.navigate(Screens.Friday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap(text = "Пятница")
                 LazyColumn{
                     items(listFriday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson,it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -176,11 +193,13 @@ fun Home(top: PaddingValues) {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp, bottom = 50.dp)
+                    .clickable { navController.navigate(Screens.Saturday.route) },
+                elevation = CardDefaults.cardElevation(15.dp)
             ) {
                 Textap(text = "Суббота")
                 LazyColumn{
                     items(listSaturday) {
-                        Textup(text = it.lesson, font = FONT_SIZE)
+                        Textup(it.lesson,it.time, font = FONT_SIZE)
                     }
                 }
             }
@@ -194,7 +213,7 @@ fun Textap(text: String) {
 }
 
 @Composable
-fun Textup(text: String, font: Int) {
-    Text(text = text, fontSize = font.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp))
+fun Textup(textLesson: String, time: String,  font: Int) {
+    Text(text = "$textLesson\n$time", fontSize = font.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp))
     Divider()
 }

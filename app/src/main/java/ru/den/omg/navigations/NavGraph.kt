@@ -1,5 +1,6 @@
 package ru.den.omg.navigations
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,8 +16,11 @@ import ru.den.omg.screens.week.Tuesday_Week
 import ru.den.omg.screens.week.Wednesday_Week
 import ru.den.omg.screens.week.WeekScreen
 
+
+
+//Не забыть отправлять контекст экрана в другие скрины.
 @Composable
-fun NavGraph(navController: NavHostController) {
+fun NavGraph(navController: NavHostController, context: Context) {
     NavHost(navController = navController,
         startDestination = Screens.Home.route) {
 
@@ -27,7 +31,7 @@ fun NavGraph(navController: NavHostController) {
 
         // Экран внесения предметов
         composable(Screens.Week.route) {
-            Monday_Week(navController = navController)
+            Monday_Week(navController = navController, context = context)
         }
 
         // Экран расписания
@@ -41,19 +45,19 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(Screens.Tuesday.route) {
-            Tuesday_Week(navController = navController)
+            Tuesday_Week(navController = navController, context)
         }
 
         composable(Screens.Wednesday.route) {
-            Wednesday_Week(navController = navController)
+            Wednesday_Week(navController = navController, context)
         }
 
         composable(Screens.Thursday.route) {
-            Thursday_Week(navController)
+            Thursday_Week(navController, context)
         }
 
         composable(Screens.Friday.route) {
-            Friday_Week(navController)
+            Friday_Week(navController, context)
         }
 
         composable(Screens.Calendar.route) {
@@ -61,7 +65,7 @@ fun NavGraph(navController: NavHostController) {
         }
 
         composable(Screens.Saturday.route) {
-            Saturday_Week(navController)
+            Saturday_Week(navController, context)
         }
     }
 }

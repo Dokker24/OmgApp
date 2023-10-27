@@ -19,6 +19,17 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
+
+        sourceSets {
+            getByName("androidTest"){
+                assets.srcDirs(File(projectDir, "schemas"))
+            }
+        }
+
     }
 
     buildTypes {
