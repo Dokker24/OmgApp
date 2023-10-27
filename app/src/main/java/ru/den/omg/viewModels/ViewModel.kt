@@ -31,10 +31,10 @@ class MainViewModel(val database: Mine_Data24) : ViewModel() {
     var newText by mutableStateOf("")
     var newTimeBefore by mutableStateOf("8:00")
     var newTimeAfter by mutableStateOf("8:45")
-
+    var monday: Monday_Entity? = null
 
     private val calendar = Calendar.getInstance()
-    private var monday: Monday_Entity? = null
+
 
 
 
@@ -50,6 +50,7 @@ class MainViewModel(val database: Mine_Data24) : ViewModel() {
     fun deleteItem(item: Monday_Entity) = viewModelScope.launch {
         database.dao.deleteItem(item)
     }
+
 
 
     @SuppressLint("ScheduleExactAlarm")

@@ -42,19 +42,19 @@ fun NavGraph(navController: NavHostController, context: Context) {
         }
 
         composable(Screens.Tuesday.route) {
-            Tuesday_Week(navController = navController)
+            Tuesday_Week(navController = navController, context)
         }
 
         composable(Screens.Wednesday.route) {
-            Wednesday_Week(navController = navController)
+            Wednesday_Week(navController = navController, context)
         }
 
         composable(Screens.Thursday.route) {
-            Thursday_Week(navController)
+            Thursday_Week(navController, context)
         }
 
         composable(Screens.Friday.route) {
-            Friday_Week(navController)
+            Friday_Week(navController, context)
         }
 
         composable(Screens.Calendar.route) {
@@ -62,7 +62,7 @@ fun NavGraph(navController: NavHostController, context: Context) {
         }
 
         composable(Screens.Saturday.route) {
-            Saturday_Week(navController)
+            Saturday_Week(navController, context)
         }
     }
 }
