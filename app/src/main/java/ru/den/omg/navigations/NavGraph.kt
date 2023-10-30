@@ -8,13 +8,13 @@ import androidx.navigation.compose.composable
 import ru.den.omg.screens.calendar.CalendarScreen
 import ru.den.omg.screens.home.HomeScreen
 import ru.den.omg.screens.settings.Settings_Screen
+import ru.den.omg.screens.splash.AnimatedSplashScreen
 import ru.den.omg.screens.week.Friday_Week
 import ru.den.omg.screens.week.Monday_Week
 import ru.den.omg.screens.week.Saturday_Week
 import ru.den.omg.screens.week.Thursday_Week
 import ru.den.omg.screens.week.Tuesday_Week
 import ru.den.omg.screens.week.Wednesday_Week
-import ru.den.omg.screens.week.WeekScreen
 
 
 
@@ -22,7 +22,7 @@ import ru.den.omg.screens.week.WeekScreen
 @Composable
 fun NavGraph(navController: NavHostController, context: Context) {
     NavHost(navController = navController,
-        startDestination = Screens.Home.route) {
+        startDestination = Screens.Splash.route) {
 
         // Домашний экран
         composable(Screens.Home.route) {
@@ -67,5 +67,10 @@ fun NavGraph(navController: NavHostController, context: Context) {
         composable(Screens.Saturday.route) {
             Saturday_Week(navController, context)
         }
+
+        composable(Screens.Splash.route) {
+            AnimatedSplashScreen(navController = navController)
+        }
+
     }
 }

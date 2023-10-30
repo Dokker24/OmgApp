@@ -67,6 +67,8 @@ dependencies {
     ksp("androidx.room:room-compiler:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0")
 
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
 
 
     implementation("androidx.compose.material:material:1.5.2")

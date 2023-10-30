@@ -19,6 +19,7 @@ import androidx.core.app.NotificationCompat
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import ru.den.omg.navigations.NavGraph
+import ru.den.omg.screens.splash.AnimatedSplashScreen
 import ru.den.omg.time.TimeReceiver
 import ru.den.omg.ui.theme.OmgTheme
 import java.util.Calendar
@@ -42,13 +43,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier
                         .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
-                ) {
+                )
+                {
                     val navController = rememberNavController()
                     NavGraph(navController = navController, context = this)
                 }
             }
         }
-        val timeReceiver = TimeReceiver()
     }
 }
 
