@@ -10,6 +10,9 @@ import androidx.core.app.NotificationCompat
 import ru.den.omg.R
 
 class TimeReceiver : BroadcastReceiver() {
+    /*
+    Я ден
+     */
 
     override fun onReceive(context: Context, intent: Intent) {
         val notificationManager = context.getSystemService(NotificationManager::class.java)
