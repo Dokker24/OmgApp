@@ -5,12 +5,14 @@ import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import ru.den.omg.data.entity.Calendar_Entity
 import ru.den.omg.data.entity.Monday_Entity
 import ru.den.omg.data.entity.Friday_Entity
 import ru.den.omg.data.entity.Saturday_Entity
 import ru.den.omg.data.entity.Thursday_Entity
 import ru.den.omg.data.entity.Tuesday_Entity
 import ru.den.omg.data.entity.Wednesday_Entity
+import ru.den.omg.screens.calendar.CalendarScreen
 
 @Database(
     entities = [
@@ -19,11 +21,12 @@ import ru.den.omg.data.entity.Wednesday_Entity
     Wednesday_Entity::class,
     Thursday_Entity::class,
     Friday_Entity::class,
-    Saturday_Entity::class
+    Saturday_Entity::class,
+    Calendar_Entity::class
                ],
-    version = 2,
+    version = 3,
     autoMigrations = [
-        AutoMigration(1, 2)
+        AutoMigration(2, 3)
     ],
     exportSchema = true
     )

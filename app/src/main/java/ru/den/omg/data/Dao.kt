@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
+import ru.den.omg.data.entity.Calendar_Entity
 import ru.den.omg.data.entity.Friday_Entity
 import ru.den.omg.data.entity.Monday_Entity
 import ru.den.omg.data.entity.Saturday_Entity
@@ -56,4 +57,12 @@ interface Dao {
     suspend fun deleteItem(saturdayEntity: Saturday_Entity)
     @Query("SELECT * FROM saturday_entity")
     fun getItemSat(): Flow<List<Saturday_Entity>>
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertItem(calendarEntity: Calendar_Entity)
+    @Delete
+    suspend fun deleteItem(calendarEntity: Calendar_Entity)
+    @Query("SELECT * FROM calendar_entity")
+    fun getCalendar(): Flow<List<Calendar_Entity>>
 }

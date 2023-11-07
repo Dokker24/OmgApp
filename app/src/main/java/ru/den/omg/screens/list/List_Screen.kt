@@ -17,11 +17,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,9 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import ru.den.omg.R
+import ru.den.omg.converter.Top
 import ru.den.omg.navigations.Screens
 import ru.den.omg.navigations.bottomNavigation.BottomAppBar
 import ru.den.omg.ui.theme.OmgTheme
@@ -41,10 +43,11 @@ fun List(navController: NavController) {
     OmgTheme {
         Surface {
             Scaffold(
-                bottomBar = { BottomAppBar(navController = navController) }
+                topBar = { Top(title = stringResource(id = R.string.list)) },
+                bottomBar = { BottomAppBar(navController = navController) },
+                containerColor = Color(0xFF9CE59E)
             ) {
-                Column(modifier = Modifier.verticalScroll(remember { ScrollState(0) })) {
-                    Text(text = "Расписание", fontSize = 35.sp, modifier = Modifier.padding(start = 15.dp, top = 5.dp, bottom = 20.dp))
+                Column(modifier = Modifier.verticalScroll(remember { ScrollState(0) }).padding(top = it.calculateTopPadding())) {
                     CaseCard(name = "Понедельник", navController, Screens.Week.route)
                     CaseCard("Вторник", navController, Screens.Tuesday.route)
                     CaseCard("Среда", navController, Screens.Wednesday.route)
@@ -52,7 +55,6 @@ fun List(navController: NavController) {
                     CaseCard("Пятница", navController, Screens.Friday.route)
                     CaseCard("Суббота", navController, Screens.Saturday.route)
                 }
-                it
             }
         }
     }
@@ -71,7 +73,7 @@ fun  CaseCard(name: String, navController: NavController, navigate: String) {
                 navController.navigate(navigate)
             },
         shape = RoundedCornerShape(15.dp),
-        elevation = CardDefaults.cardElevation(10.dp)
+        elevation = CardDefaults.cardElevation(5.dp)
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Column {

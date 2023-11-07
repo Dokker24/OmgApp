@@ -50,7 +50,7 @@ fun AnimatedSplashScreen(navController: NavController) {
 fun Splash(alpha: Float) {
     Box (
        modifier = Modifier
-           .background(if (isSystemInDarkTheme()) Color.Black else Purple80)
+           .background(Color(0xFF6200EE))
            .alpha(alpha),
         contentAlignment = Alignment.Center
     ) {
@@ -60,7 +60,7 @@ fun Splash(alpha: Float) {
             modifier = Modifier.size(120.dp)
         )
         Image(
-            painter = painterResource(id = R.drawable.den),
+            painter = painterResource(if((Math.random() * 100).toInt() == 52) R.drawable.denis else R.drawable.den),
             contentDescription = "Ден",
             modifier = Modifier.size(220.dp)
         )

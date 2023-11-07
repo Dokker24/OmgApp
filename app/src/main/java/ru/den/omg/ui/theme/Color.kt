@@ -12,3 +12,5 @@ val Pink40 = Color(0xFF7D5260)
 
 val Prime = Color(0xED061329)
 val Bottom = Color(0xFF2A1685)
+
+    // ден

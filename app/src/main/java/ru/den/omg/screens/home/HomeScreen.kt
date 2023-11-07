@@ -3,47 +3,34 @@ package ru.den.omg.screens.home
 
 
 
-import android.widget.Toast
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
-import ru.den.omg.data.entity.Monday_Entity
+import ru.den.omg.R
+import ru.den.omg.converter.Top
 import ru.den.omg.navigations.Screens
-import ru.den.omg.time.Time
-import ru.den.omg.ui.theme.OmgTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun HomeScreen(
     navController: NavController
@@ -51,19 +38,14 @@ fun HomeScreen(
         Surface(
         ) {
             Scaffold(
-                topBar = {
-                         TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
-                             containerColor = Color.Transparent.copy(alpha = 0.8f)
-                         ),
-                             title = { Text(text = "Главная", fontSize = 35.sp) }
-                         )
-                },
                 bottomBar = { ru.den.omg.navigations.bottomNavigation.BottomAppBar(
                 navController = navController,
             ) },
-                containerColor = Color(0xFF000000)
+                containerColor = Color(0xFF9CE59E)
             ) {
-                Home(it, navController)
+                Home(navController)
+                Top(stringResource(id = R.string.home))
+                it
             }
         }
     }
@@ -71,7 +53,7 @@ fun HomeScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Home(top: PaddingValues, navController: NavController) {
+fun Home(navController: NavController) {
     val FONT_SIZE = 20
     var state = rememberLazyListState()
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = state)
@@ -87,7 +69,7 @@ fun Home(top: PaddingValues, navController: NavController) {
     LazyColumn(
         state = state,
         flingBehavior = snapFlingBehavior,
-        modifier = Modifier.padding(top = top.calculateTopPadding())
+        modifier = Modifier.padding(top = 60.dp)
     ) {
         item {
             OutlinedCard (
@@ -192,7 +174,7 @@ fun Home(top: PaddingValues, navController: NavController) {
             ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
-                    .padding(10.dp, bottom = 50.dp)
+                    .padding(10.dp, bottom = 90.dp)
                     .clickable { navController.navigate(Screens.Saturday.route) },
                 elevation = CardDefaults.cardElevation(15.dp)
             ) {
@@ -203,6 +185,10 @@ fun Home(top: PaddingValues, navController: NavController) {
                     }
                 }
             }
+        }
+
+        item {
+            Text(text = "Ден всегда рядом...")
         }
     }
 }

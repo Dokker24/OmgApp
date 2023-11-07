@@ -24,6 +24,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -59,10 +60,11 @@ fun Thursday_Week(navController: NavController, context: Context) {
     val list = thuViewModel.itemList.collectAsState(initial = emptyList())
     OmgTheme {
         Scaffold(
-            bottomBar = { BottomAppBar(navController = navController) }
+            bottomBar = { BottomAppBar(navController = navController) },
+            containerColor = Color(0xFF9CE59E)
         ) {
-            Column {
-                Text("Четверг", fontSize = 30.sp, modifier = Modifier.padding(10.dp))
+            TopBarWeek(navController = navController, title = stringResource(id = R.string.thursday))
+            Column(modifier = Modifier.padding(top = 60.dp)) {
                 Column {
                     OutlinedTextField(value = thuViewModel.newText,
                         onValueChange = { item ->
@@ -85,6 +87,15 @@ fun Thursday_Week(navController: NavController, context: Context) {
                             }
                         },
                         colors = TextFieldDefaults.colors(
+
+                            unfocusedIndicatorColor = Color(0xFF6200EE),
+                            disabledIndicatorColor = Color(0xFF6200EE),
+                            focusedIndicatorColor = Color(0xFF6200EE),
+                            focusedContainerColor = Color.Transparent.copy(alpha = 0.7f),
+                            unfocusedContainerColor = Color.Transparent.copy(alpha = 0.7f),
+
+
+
                             errorSuffixColor = Color.Red,
                             errorCursorColor = Color.Red,
                             errorIndicatorColor = Color.Red,
@@ -94,31 +105,41 @@ fun Thursday_Week(navController: NavController, context: Context) {
                         ),
                         isError = MainViewModel.isNumeric(thuViewModel.newText)
                     )
-                    Row {
-                        TextField(value = thuViewModel.newTimeBefore,
-                            onValueChange = { thuViewModel.newTimeBefore = it },
-                            colors = TextFieldDefaults.colors(
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                disabledContainerColor = Color.Transparent,
-                                focusedContainerColor = Color.Transparent,
-                                unfocusedContainerColor = Color.Transparent
-                            ),
-                            modifier = Modifier.size(90.dp, 60.dp),
-                            singleLine = true)
-                        Text(" - ", fontSize = 20.sp, modifier = Modifier.padding(start = 0.dp, 20.dp))
-                        TextField(value = thuViewModel.newTimeAfter,
-                            onValueChange = { thuViewModel.newTimeAfter = it },
-                            colors = TextFieldDefaults.colors(
-                                focusedIndicatorColor = Color.Transparent,
-                                unfocusedIndicatorColor = Color.Transparent,
-                                disabledLabelColor = Color.Transparent,
-                                focusedContainerColor = Color.Transparent,
-                                unfocusedContainerColor = Color.Transparent
-                            ),
-                            modifier = Modifier.size(120.dp, 60.dp),
-                            singleLine = true)
+                    Card(
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color(0xFF6200EE)
+                        ),
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .size(200.dp, 50.dp)
+                    ) {
+                        Row {
+                            TextField(value = thuViewModel.newTimeBefore,
+                                onValueChange = { thuViewModel.newTimeBefore = it },
+                                colors = TextFieldDefaults.colors(
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    disabledContainerColor = Color.Transparent,
+                                    focusedContainerColor = Color.Transparent,
+                                    unfocusedContainerColor = Color.Transparent
+                                ),
+                                modifier = Modifier.size(90.dp, 60.dp),
+                                singleLine = true)
+                            Text(" - ", fontSize = 20.sp, modifier = Modifier.padding(start = 0.dp, 20.dp))
+                            TextField(value = thuViewModel.newTimeAfter,
+                                onValueChange = { thuViewModel.newTimeAfter = it },
+                                colors = TextFieldDefaults.colors(
+                                    focusedIndicatorColor = Color.Transparent,
+                                    unfocusedIndicatorColor = Color.Transparent,
+                                    disabledLabelColor = Color.Transparent,
+                                    focusedContainerColor = Color.Transparent,
+                                    unfocusedContainerColor = Color.Transparent
+                                ),
+                                modifier = Modifier.size(120.dp, 60.dp),
+                                singleLine = true)
+                        }
                     }
+
                 }
                 LazyColumn {
                     items(list.value) { item ->
@@ -152,13 +173,16 @@ fun ListItem(item: Thursday_Entity,
         )) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column {
-                Text(text = item.lesson, fontSize = 20.sp, modifier = Modifier.padding(start = 10.dp, 5.dp))
-                Text(text = item.time, fontSize = 18.sp, modifier = Modifier.padding(5.dp))
+                Text(text = item.lesson, fontSize = 20.sp, modifier = Modifier.padding(start = 10.dp, 5.dp), color = Color.White)
+                Text(text = item.time, fontSize = 18.sp, modifier = Modifier.padding(5.dp), color = Color.White)
             }
             Spacer(modifier = Modifier.weight(1f))
             IconButton(onClick = {
                 expanded = true
-            }) {
+            },
+                colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = Color.White
+                )) {
                 Icon(Icons.Default.MoreVert, contentDescription = "More")
             }
             DropdownMenu(

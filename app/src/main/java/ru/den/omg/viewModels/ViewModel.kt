@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.widget.Toast
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,13 +34,14 @@ class MainViewModel(val database: Mine_Data24) : ViewModel() {
     var newTimeAfter by mutableStateOf("8:45")
     var monday: Monday_Entity? = null
 
+
     private val calendar = Calendar.getInstance()
 
 
 
 
     fun insertItem() = viewModelScope.launch {
-        val lesson = monday?.copy(lesson = newText) ?: Monday_Entity(lesson = newText, time = "$newTimeBefore-$newTimeAfter")
+        val lesson = monday?.copy(lesson = newText, time = "$newTimeBefore-$newTimeAfter") ?: Monday_Entity(lesson = newText, time = "$newTimeBefore - $newTimeAfter")
         database.dao.insertItem(lesson)
         monday = null
         newText = ""
@@ -55,21 +57,25 @@ class MainViewModel(val database: Mine_Data24) : ViewModel() {
 
     @SuppressLint("ScheduleExactAlarm")
     fun sendNotify(context: Context, item: Monday_Entity) = viewModelScope.launch {
-        calendar.set(Calendar.HOUR_OF_DAY, TimeForDatabase.timeAfterIntHour(item.time.split('-')[1]))
-        calendar.set(Calendar.MINUTE, TimeForDatabase.timeAfterIntMinute(item.time.split('-')[1]))
+        try {
+            calendar.set(Calendar.HOUR_OF_DAY, TimeForDatabase.timeAfterIntHour(item.time.split('-')[1].trim()))
+            calendar.set(Calendar.MINUTE, TimeForDatabase.timeAfterIntMinute(item.time.split('-')[1].trim()))
 
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, TimeReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(context, item.id ?: 1, intent, PendingIntent.FLAG_IMMUTABLE)
-        alarmManager.setExact(
-            AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            pendingIntent
-        )
-    }
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(context, TimeReceiver::class.java)
+            intent.putExtra("Lesson", item.lesson)
+            intent.putExtra("Den", item.id)
+            val pendingIntent = PendingIntent.getBroadcast(context, item.id ?: 1, intent, PendingIntent.FLAG_IMMUTABLE)
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                pendingIntent
+            )
 
-    fun unNotify() = viewModelScope.launch {
-
+            Toast.makeText(context, "Уведомление зазвучит за 5 минут до конца урока", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(context, "Ошибка, проверьте введённые значения", Toast.LENGTH_SHORT).show()
+        }
     }
 
     companion object {

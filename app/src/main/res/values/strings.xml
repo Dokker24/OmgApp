@@ -4,4 +4,14 @@
     <string name="sendNotify">Уведомить</string>
     <string name="ToastDelete">Элемент удалён</string>
     <string name="redacting">Изменить</string>
+    <string name="home">Главная</string>
+    <string name="list">Расписание</string>
+    <string name="calendar">Мероприятия</string>
+
+    <string name="monday">Понедельник</string>
+    <string name="tuesday">Вторник</string>
+    <string name="wednesday">Среда</string>
+    <string name="thursday">Четверг</string>
+    <string name="friday">Пятница</string>
+    <string name="saturday">Суббота</string>
 </resources>
