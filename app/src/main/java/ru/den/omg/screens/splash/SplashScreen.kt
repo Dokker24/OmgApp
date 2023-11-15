@@ -6,8 +6,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.runtime.Composable
@@ -48,21 +51,23 @@ fun AnimatedSplashScreen(navController: NavController) {
 
 @Composable
 fun Splash(alpha: Float) {
-    Box (
-       modifier = Modifier
-           .background(Color(0xFF6200EE))
-           .alpha(alpha),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(Icons.Default.Build,
-            contentDescription = "Ден",
-            tint = Color.White,
-            modifier = Modifier.size(120.dp)
-        )
-        Image(
-            painter = painterResource(if((Math.random() * 100).toInt() == 52) R.drawable.denis else R.drawable.den),
-            contentDescription = "Ден",
-            modifier = Modifier.size(220.dp)
-        )
-    }
+        Box (
+            modifier = Modifier
+                .background(Color(0xFF6200EE))
+                .alpha(alpha),
+            contentAlignment = Alignment.Center
+        ) {
+//                Icon(Icons.Default.Build,
+//                    contentDescription = "Ден",
+//                    tint = Color.White,
+//                    modifier = Modifier.size(120.dp)
+//                )
+                Image(
+                    painter = painterResource(if((Math.random() * 100).toInt() == 52) R.drawable.denis else R.drawable.den),
+                    contentDescription = "Ден",
+                    modifier = Modifier.size(220.dp)
+                )
+
+        }
+
 }

@@ -12,4 +12,6 @@ sealed class Screens(val route: String) {
     object Saturday: Screens("saturday_screen")
     object Calendar: Screens("calendar_screen")
     object Splash: Screens("splash_screen")
+    object ListMonth: Screens("listmonth_screen")
+    object ListWeek: Screens("listweek_screen")
 }

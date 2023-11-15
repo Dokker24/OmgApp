@@ -1,7 +1,6 @@
-package ru.den.omg.screens.list
+package ru.den.omg.screens
 
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,56 +10,52 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import ru.den.omg.R
-import ru.den.omg.converter.Top
-import ru.den.omg.navigations.Screens
-import ru.den.omg.navigations.bottomNavigation.BottomAppBar
-import ru.den.omg.ui.theme.OmgTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
+import ru.den.omg.data.entity.Calendar_Entity
+import ru.den.omg.viewModels.CalendarViewModel
 
 @Composable
-fun List(navController: NavController) {
-    OmgTheme {
-        Surface {
-            Scaffold(
-                topBar = { Top(title = stringResource(id = R.string.list)) },
-                bottomBar = { BottomAppBar(navController = navController) },
-                containerColor = Color(0xFF9CE59E)
-            ) {
-                Column(modifier = Modifier.verticalScroll(remember { ScrollState(0) }).padding(top = it.calculateTopPadding())) {
-                    CaseCard(name = "Понедельник", navController, Screens.Week.route)
-                    CaseCard("Вторник", navController, Screens.Tuesday.route)
-                    CaseCard("Среда", navController, Screens.Wednesday.route)
-                    CaseCard("Четверг", navController, Screens.Thursday.route)
-                    CaseCard("Пятница", navController, Screens.Friday.route)
-                    CaseCard("Суббота", navController, Screens.Saturday.route)
-                }
-            }
+fun ListMonth() {
+    val viewModel: CalendarViewModel = viewModel(factory = CalendarViewModel.factory)
+    val list = viewModel.listItems.collectAsState(initial = emptyList())
+    LazyColumn {
+        items(list.value) {
+            CaseCard(it, viewModel)
         }
     }
 }
+
 @Composable
-fun CaseCard(name: String, navController: NavController, navigate: String) {
+fun CaseCard(
+    item: Calendar_Entity,
+    viewModel: CalendarViewModel
+) {
+    var expanded by remember { mutableStateOf(false) }
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color(0xFF6200EE)
@@ -68,10 +63,7 @@ fun CaseCard(name: String, navController: NavController, navigate: String) {
         modifier = Modifier
             .fillMaxWidth()
             .height(80.dp)
-            .padding(5.dp)
-            .clickable {
-                navController.navigate(navigate)
-            },
+            .padding(5.dp),
         shape = RoundedCornerShape(15.dp),
         elevation = CardDefaults.cardElevation(5.dp)
     ) {
@@ -85,11 +77,26 @@ fun CaseCard(name: String, navController: NavController, navigate: String) {
                     Column(modifier = Modifier
                         .padding(start = 5.dp)
                     ) {
-                        Text(text = name, fontSize = 23.sp)
+                        androidx.compose.material3.Text(text = item.data, fontSize = 23.sp)
+                        Text(text = item.party, fontSize = 20.sp, color = Color.White)
                     }
                     Spacer(modifier = Modifier.weight(1f, true))
-                    IconButton(onClick = {  }) {
+                    IconButton(onClick = {
+                        expanded = true
+                    }) {
                         Icon(Icons.Default.MoreVert, contentDescription = "о чём")
+                    }
+                }
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    offset = DpOffset(x = 220.dp, y = 0.dp)
+                ) {
+                    DropdownMenuItem(onClick = {
+                        viewModel.deleteItem(item)
+                    }) {
+                        Icon(Icons.Default.Delete, contentDescription = "Del", tint = Color.Red)
+                        Text("Удалить", color = Color.Red)
                     }
                 }
             }

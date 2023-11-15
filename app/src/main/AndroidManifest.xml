@@ -29,12 +29,8 @@
         <receiver
             android:name=".time.TimeReceiver"
             android:enabled="true"
-            android:exported="true" />
-
-        <service
-            android:name=".time.TimeService"
-            android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:permission="TODO" />
 
         <activity
             android:name=".MainActivity"

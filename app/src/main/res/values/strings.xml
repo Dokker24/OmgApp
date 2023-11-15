@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Omg</string>
+    <string name="app_name">Приложение учителя</string>
     <string name="delete">Удалить</string>
     <string name="sendNotify">Уведомить</string>
     <string name="ToastDelete">Элемент удалён</string>

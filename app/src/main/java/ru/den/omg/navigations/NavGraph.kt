@@ -5,6 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import ru.den.omg.screens.ListMonth
+import ru.den.omg.screens.ListWeek
 import ru.den.omg.screens.calendar.CalendarScreen
 import ru.den.omg.screens.home.HomeScreen
 import ru.den.omg.screens.settings.Settings_Screen
@@ -70,6 +72,14 @@ fun NavGraph(navController: NavHostController, context: Context) {
 
         composable(Screens.Splash.route) {
             AnimatedSplashScreen(navController = navController)
+        }
+
+        composable(Screens.ListMonth.route) {
+            ListMonth()
+        }
+
+        composable(Screens.ListWeek.route) {
+            ListWeek()
         }
 
     }

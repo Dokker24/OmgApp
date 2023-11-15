@@ -14,6 +14,7 @@ import ru.den.omg.data.entity.Monday_Entity
 import java.util.Date
 
 
+// Класс не используется, но выбрасывать как-то жалко
 class Time(val data: Mine_Data24) : ViewModel() {
 
     val listMonday = data.dao.getItem()
