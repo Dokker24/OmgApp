@@ -63,11 +63,11 @@ fun NavGraph(navController: NavHostController, context: Context) {
         }
 
         composable(Screens.Calendar.route) {
-            CalendarScreen(navController)
+            CalendarScreen(navController, context)
         }
 
         composable(Screens.Saturday.route) {
-            Saturday_Week(navController, context)
+            Saturday_Week(navController = navController, context = context)
         }
 
         composable(Screens.Splash.route) {

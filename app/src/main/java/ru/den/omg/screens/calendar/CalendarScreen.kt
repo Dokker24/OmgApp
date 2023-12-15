@@ -3,6 +3,7 @@
 package ru.den.omg.screens.calendar
 
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import ru.den.omg.R
@@ -38,9 +40,11 @@ import ru.den.omg.viewModels.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarScreen(navController: NavHostController) {
-    val mondayViewModel: CalendarViewModel = viewModel(factory = CalendarViewModel.factory)
-    val list = mondayViewModel.listItems.collectAsState(initial = emptyList())
+fun CalendarScreen(
+    navController: NavHostController,
+    context: Context,
+    mondayViewModel: CalendarViewModel = hiltViewModel()
+    ) {
     OmgTheme {
         Scaffold(
             bottomBar = { BottomAppBar(navController = navController) },
@@ -93,7 +97,7 @@ fun CalendarScreen(navController: NavHostController) {
                     trailingIcon = {
                         IconButton(
                             onClick = {
-                                if (mondayViewModel.party != "") mondayViewModel.insertItem()
+                                if (mondayViewModel.party != "") mondayViewModel.insertItem(context)
                             },
                             modifier = Modifier
                                 .padding(10.dp)

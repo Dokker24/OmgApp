@@ -88,7 +88,9 @@ fun CaseCard(name: String, navController: NavController, navigate: String) {
                         Text(text = name, fontSize = 23.sp)
                     }
                     Spacer(modifier = Modifier.weight(1f, true))
-                    IconButton(onClick = {  }) {
+                    IconButton(onClick = {
+
+                    }) {
                         Icon(Icons.Default.MoreVert, contentDescription = "о чём")
                     }
                 }

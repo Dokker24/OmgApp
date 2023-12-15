@@ -2,11 +2,8 @@
 
 package ru.den.omg.viewModels
 
-import android.annotation.SuppressLint
-import android.app.AlarmManager
-import android.app.PendingIntent
+
 import android.content.Context
-import android.content.Intent
 import android.widget.Toast
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
@@ -18,26 +15,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.den.omg.App
 import ru.den.omg.data.Mine_Data24
 import ru.den.omg.data.entity.Calendar_Entity
-import ru.den.omg.data.entity.Monday_Entity
-import ru.den.omg.time.TimeForDatabase
-import ru.den.omg.time.TimeReceiver
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Date
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.TimeZone
+import javax.inject.Inject
 
 
-@Suppress("OPT_IN_USAGE_FUTURE_ERROR")
-class CalendarViewModel(val database: Mine_Data24) : ViewModel() {
+@HiltViewModel
+class CalendarViewModel @Inject constructor(val database: Mine_Data24) : ViewModel() {
     val datepick = Calendar.getInstance()
 
-    var expanded by mutableStateOf(false)
 
     val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
     val gregorianCalendar = GregorianCalendar(TimeZone.getTimeZone("RU"))
@@ -63,32 +57,35 @@ class CalendarViewModel(val database: Mine_Data24) : ViewModel() {
 
 
     @OptIn(ExperimentalMaterial3Api::class)
-    fun insertItem() = viewModelScope.launch {
-        val lesson = calendar?.copy(party = party, data = date.toString()) ?: Calendar_Entity(party = party, data = getDateToString(date.selectedDateMillis))
-        database.dao.insertItem(lesson)
-        calendar = null
-        party = ""
+    fun insertItem(context: Context) = viewModelScope.launch {
+        try {
+            val lesson = calendar?.copy(party = party, data = date.toString()) ?: Calendar_Entity(party = party, data = getDateToString(date.selectedDateMillis))
+            database.dao.insertItem(lesson)
+            calendar = null
+            party = ""
+            Toast.makeText(context, "напоминание создано", Toast.LENGTH_SHORT).show()
+        } catch(e: Exception) {
+            Toast.makeText(context, "Что-то пошло не так :(", Toast.LENGTH_SHORT).show()
+            e.printStackTrace()
+        }
     }
 
+    /*******************
+     * Скоро появится...
+     *******************/
 
-
+//    fun sendNotify(context: Context) = viewModelScope.launch {
+//        try {
+//            datepick.set(Calendar.DAY_OF_YEAR)
+//        } catch (e: Exception) {
+//            Toast.makeText(context, "Что-то пошло не так :(", Toast.LENGTH_SHORT).show()
+//            e.printStackTrace()
+//        }
+//    }
 
 
 
     fun deleteItem(item: Calendar_Entity) = viewModelScope.launch {
         database.dao.deleteItem(item)
-    }
-
-    companion object {
-        val factory : ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                val database = (checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]) as App).data
-                return CalendarViewModel(database) as T
-            }
-        }
     }
 }

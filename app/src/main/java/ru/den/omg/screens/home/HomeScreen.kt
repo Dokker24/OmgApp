@@ -58,7 +58,7 @@ fun HomeScreen(
                 Column {
                     Top(stringResource(id = R.string.home))
                     Tab(tabs = tabs, pagerState)
-                    TabContent(tabs = tabs, pagerState = pagerState, navController = navController)
+                    TabContent(tabs = tabs, pagerState = pagerState)
                 }
                 it
             }

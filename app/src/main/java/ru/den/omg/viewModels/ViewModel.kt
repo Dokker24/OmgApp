@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import ru.den.omg.App
 import ru.den.omg.data.Mine_Data24
@@ -25,9 +26,11 @@ import ru.den.omg.data.entity.Monday_Entity
 import ru.den.omg.time.TimeForDatabase
 import ru.den.omg.time.TimeReceiver
 import java.util.Calendar
+import javax.inject.Inject
 
 
-class MainViewModel(val database: Mine_Data24) : ViewModel() {
+@HiltViewModel
+class MainViewModel @Inject constructor(val database: Mine_Data24) : ViewModel() {
     val itemList = database.dao.getItem()
     var newText by mutableStateOf("")
     var newTimeBefore by mutableStateOf("8:00")
@@ -79,16 +82,6 @@ class MainViewModel(val database: Mine_Data24) : ViewModel() {
     }
 
     companion object {
-        val factory : ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                val database = (checkNotNull(extras[APPLICATION_KEY]) as App).data
-                return MainViewModel(database) as T
-            }
-        }
         fun isNumeric(str: String): Boolean {
             return try {
                 str.toDouble()

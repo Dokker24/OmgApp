@@ -2,6 +2,7 @@ package ru.den.omg.navigations.bottomNavigation
 
 
 
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -22,6 +23,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun BottomAppBar(navController: NavController) {
@@ -53,7 +57,7 @@ fun BottomAppBar(navController: NavController) {
                 onClick = {
                     selectedItem = index
                     navController.navigate(item.route)
-                          },
+                    },
                 icon = { Icon(painter = painterResource(id = item.image), contentDescription = "$index") },
                 label = { Text(text = item.title, fontSize = 12.sp) }
                 )

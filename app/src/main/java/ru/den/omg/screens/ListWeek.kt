@@ -3,7 +3,7 @@ package ru.den.omg.screens
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -19,10 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import ru.den.omg.navigations.Screens
-import ru.den.omg.navigations.tabNavigation.Tab
+import androidx.hilt.navigation.compose.hiltViewModel
 import ru.den.omg.screens.home.HomeViewModel
 
 @Composable
@@ -32,11 +29,12 @@ fun ListWeek() {
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Home() {
+fun Home(
+    view: HomeViewModel = hiltViewModel()
+) {
     val FONT_SIZE = 20
-    var state = rememberLazyListState()
+    val state = rememberLazyListState()
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = state)
-    val view: HomeViewModel = viewModel(factory = HomeViewModel.factory)
     val listMonday = view.monday.collectAsState(initial = emptyList()).value
     val listTuesday = view.tuesday.collectAsState(initial = emptyList()).value
     val listWednesday = view.wednesday.collectAsState(initial = emptyList()).value
@@ -58,6 +56,7 @@ fun Home() {
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
                     .padding(10.dp)
+                    .fillMaxWidth()
                     .clickable {
 //                        navController.navigate(Screens.Week.route)
                     },
@@ -78,6 +77,7 @@ fun Home() {
                 ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
+                    .fillMaxWidth()
                     .padding(10.dp)
 //                    .clickable { navController.navigate(Screens.Tuesday.route) }
                    ,
@@ -98,6 +98,7 @@ fun Home() {
                 ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
+                    .fillMaxWidth()
                     .padding(10.dp)
 //                    .clickable { navController.navigate(Screens.Wednesday.route) }
                 ,
@@ -118,6 +119,7 @@ fun Home() {
                 ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
+                    .fillMaxWidth()
                     .padding(10.dp)
 //                    .clickable { navController.navigate(Screens.Thursday.route) }
                 ,
@@ -138,6 +140,7 @@ fun Home() {
                 ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
+                    .fillMaxWidth()
                     .padding(10.dp)
 //                    .clickable { navController.navigate(Screens.Friday.route) }
                 ,
@@ -157,6 +160,7 @@ fun Home() {
             ),
                 modifier = Modifier
                     .size(width = 350.dp, height = 470.dp)
+                    .fillMaxWidth()
                     .padding(10.dp, bottom = 90.dp)
 //                    .clickable { navController.navigate(Screens.Saturday.route) }
                 ,

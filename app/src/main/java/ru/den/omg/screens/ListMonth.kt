@@ -35,13 +35,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import ru.den.omg.data.entity.Calendar_Entity
 import ru.den.omg.viewModels.CalendarViewModel
 
 @Composable
-fun ListMonth() {
-    val viewModel: CalendarViewModel = viewModel(factory = CalendarViewModel.factory)
+fun ListMonth(
+    viewModel: CalendarViewModel = hiltViewModel()
+) {
     val list = viewModel.listItems.collectAsState(initial = emptyList())
     LazyColumn {
         items(list.value) {
@@ -92,11 +93,19 @@ fun CaseCard(
                     onDismissRequest = { expanded = false },
                     offset = DpOffset(x = 220.dp, y = 0.dp)
                 ) {
-                    DropdownMenuItem(onClick = {
-                        viewModel.deleteItem(item)
-                    }) {
+//                    DropdownMenuItem(onClick = {
+                        /*******************
+                         * Скоро появится...
+                         *******************/
+//                        viewModel.sendNotify()
+//                    }) {
+//                        Icon(Icons.Default.Notifications, contentDescription = "Notificate_Month")
+//                        Text("Уведомить", color = Color.White)
+//                    }
+                    DropdownMenuItem(onClick = { viewModel.deleteItem(item); expanded = false }) {
                         Icon(Icons.Default.Delete, contentDescription = "Del", tint = Color.Red)
                         Text("Удалить", color = Color.Red)
+
                     }
                 }
             }

@@ -45,6 +45,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import ru.den.omg.R
@@ -57,8 +58,12 @@ import ru.den.omg.viewModels.TuesdayViewModel
 import ru.den.omg.viewModels.WednesdayViewModel
 
 @Composable
-fun Wednesday_Week(navController: NavController, context: Context) {
-    val wedViewModel: WednesdayViewModel = viewModel(factory = WednesdayViewModel.factory)
+fun Wednesday_Week(
+    navController: NavController,
+    context: Context,
+    wedViewModel: WednesdayViewModel = hiltViewModel()
+    ) {
+
     val list = wedViewModel.itemList.collectAsState(initial = emptyList())
     OmgTheme {
         Scaffold(

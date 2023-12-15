@@ -16,6 +16,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.CreationExtras
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.forEach
 import kotlinx.coroutines.launch
 import ru.den.omg.App
@@ -25,8 +26,10 @@ import ru.den.omg.data.entity.Wednesday_Entity
 import ru.den.omg.time.TimeForDatabase
 import ru.den.omg.time.TimeReceiver
 import java.util.Calendar
+import javax.inject.Inject
 
-class WednesdayViewModel(val database: Mine_Data24) : ViewModel() {
+@HiltViewModel
+class WednesdayViewModel @Inject constructor(val database: Mine_Data24) : ViewModel() {
     val itemList = database.dao.getItemWed()
     var newText by mutableStateOf("")
     var wed: Wednesday_Entity? = null
@@ -71,16 +74,4 @@ class WednesdayViewModel(val database: Mine_Data24) : ViewModel() {
         }
     }
 
-    companion object {
-        val factory : ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel> create(
-                modelClass: Class<T>,
-                extras: CreationExtras
-            ): T {
-                val database = (checkNotNull(extras[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]) as App).data
-                return WednesdayViewModel(database) as T
-            }
-        }
-    }
 }
