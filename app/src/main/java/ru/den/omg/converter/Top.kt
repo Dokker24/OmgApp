@@ -16,6 +16,6 @@ fun Top(title: String) {
     androidx.compose.material3.TopAppBar(colors = TopAppBarDefaults.topAppBarColors(
         containerColor = Color.Transparent.copy(alpha = 0.7f)
     ),
-        title = { Text(text = title, fontSize = 35.sp) }
+        title = { Text(text = title, fontSize = 35.sp, color = Color.White) }
     )
 }

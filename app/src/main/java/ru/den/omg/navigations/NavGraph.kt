@@ -1,7 +1,8 @@
 package ru.den.omg.navigations
 
-import android.content.Context
+
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,18 +12,21 @@ import ru.den.omg.screens.calendar.CalendarScreen
 import ru.den.omg.screens.home.HomeScreen
 import ru.den.omg.screens.settings.Settings_Screen
 import ru.den.omg.screens.splash.AnimatedSplashScreen
+import ru.den.omg.screens.week.DayOfWeek
+import ru.den.omg.screens.week.DayOfWeekViewModel
 import ru.den.omg.screens.week.Friday_Week
-import ru.den.omg.screens.week.Monday_Week
-import ru.den.omg.screens.week.Saturday_Week
-import ru.den.omg.screens.week.Thursday_Week
-import ru.den.omg.screens.week.Tuesday_Week
-import ru.den.omg.screens.week.Wednesday_Week
 
 
 
-//Не забыть отправлять контекст экрана в другие скрины.
+
 @Composable
-fun NavGraph(navController: NavHostController, context: Context) {
+fun NavGraph(
+    navController: NavHostController,
+    viewModel: DayOfWeekViewModel = hiltViewModel()
+) {
+
+    val list = viewModel.listMon
+
     NavHost(navController = navController,
         startDestination = Screens.Splash.route) {
 
@@ -33,7 +37,7 @@ fun NavGraph(navController: NavHostController, context: Context) {
 
         // Экран внесения предметов
         composable(Screens.Week.route) {
-            Monday_Week(navController = navController, context = context)
+            DayOfWeek(navController = navController, list = list, title = "Понедельник")
         }
 
         // Экран расписания
@@ -46,29 +50,29 @@ fun NavGraph(navController: NavHostController, context: Context) {
             Settings_Screen(navController = navController)
         }
 
-        composable(Screens.Tuesday.route) {
-            Tuesday_Week(navController = navController, context)
-        }
+//        composable(Screens.Tuesday.route) {
+//            Tuesday_Week(navController = navController)
+//        }
 
-        composable(Screens.Wednesday.route) {
-            Wednesday_Week(navController = navController, context)
-        }
+//        composable(Screens.Wednesday.route) {
+//            Wednesday_Week(navController = navController)
+//        }
 
-        composable(Screens.Thursday.route) {
-            Thursday_Week(navController, context)
-        }
+//        composable(Screens.Thursday.route) {
+//            Thursday_Week(navController)
+//        }
 
         composable(Screens.Friday.route) {
-            Friday_Week(navController, context)
+            Friday_Week(navController)
         }
 
         composable(Screens.Calendar.route) {
-            CalendarScreen(navController, context)
+            CalendarScreen(navController)
         }
 
-        composable(Screens.Saturday.route) {
-            Saturday_Week(navController = navController, context = context)
-        }
+//        composable(Screens.Saturday.route) {
+//            Saturday_Week(navController = navController)
+//        }
 
         composable(Screens.Splash.route) {
             AnimatedSplashScreen(navController = navController)

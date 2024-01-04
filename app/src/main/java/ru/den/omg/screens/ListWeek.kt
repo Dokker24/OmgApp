@@ -4,8 +4,8 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,6 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import org.w3c.dom.Entity
+import ru.den.omg.data.entity.Week_Entity
 import ru.den.omg.screens.home.HomeViewModel
 
 @Composable
@@ -42,138 +45,161 @@ fun Home(
     val listFriday = view.friday.collectAsState(initial = emptyList()).value
     val listSaturday = view.saturday.collectAsState(initial = emptyList()).value
 
+    val listTitle = listOf(
+        "Понедельник",
+        "Вторник",
+        "Среда",
+        "Четверг",
+        "Пятница",
+        "Суббота"
+    )
+
+    val listDayOfWeek = listOf(
+        listMonday,
+        listTuesday,
+        listWednesday,
+        listThursday,
+        listFriday,
+        listSaturday
+        )
+
 
     LazyColumn(
         state = state,
         flingBehavior = snapFlingBehavior,
-//        modifier = Modifier.padding(top = 60.dp)
+        modifier = Modifier.padding(bottom = 60.dp)
     ) {
-        item {
-            OutlinedCard (
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF6200EE)
-                ),
-                modifier = Modifier
-                    .size(width = 350.dp, height = 470.dp)
-                    .padding(10.dp)
-                    .fillMaxWidth()
-                    .clickable {
-//                        navController.navigate(Screens.Week.route)
-                    },
-                elevation = CardDefaults.cardElevation(15.dp)
-            ) {
-                Textap("Понедельник")
-                LazyColumn{
-                    items(listMonday) {
-                        Textup(it.lesson, it.time, font = FONT_SIZE)
-                    }
-                }
-            }
+
+        items(listDayOfWeek zip listTitle) {
+            ItemLazyColumn(list = it.first, title = it.second)
         }
-        item {
-            OutlinedCard(
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF6200EE)
-                ),
-                modifier = Modifier
-                    .size(width = 350.dp, height = 470.dp)
-                    .fillMaxWidth()
-                    .padding(10.dp)
-//                    .clickable { navController.navigate(Screens.Tuesday.route) }
-                   ,
-                elevation = CardDefaults.cardElevation(15.dp)
-            ) {
-                Textap("Вторник")
-                LazyColumn{
-                    items(listTuesday) {
-                        Textup(it.lesson, it.time, font = FONT_SIZE)
-                    }
-                }
-            }
-        }
-        item {
-            OutlinedCard(
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF6200EE)
-                ),
-                modifier = Modifier
-                    .size(width = 350.dp, height = 470.dp)
-                    .fillMaxWidth()
-                    .padding(10.dp)
-//                    .clickable { navController.navigate(Screens.Wednesday.route) }
-                ,
-                elevation = CardDefaults.cardElevation(15.dp)
-            ) {
-                Textap(text = "Среда")
-                LazyColumn{
-                    items(listWednesday) {
-                        Textup(it.lesson, it.time, font = FONT_SIZE)
-                    }
-                }
-            }
-        }
-        item {
-            OutlinedCard(
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF6200EE)
-                ),
-                modifier = Modifier
-                    .size(width = 350.dp, height = 470.dp)
-                    .fillMaxWidth()
-                    .padding(10.dp)
-//                    .clickable { navController.navigate(Screens.Thursday.route) }
-                ,
-                elevation = CardDefaults.cardElevation(15.dp)
-            ) {
-                Textap(text = "Четверг")
-                LazyColumn{
-                    items(listThursday) {
-                        Textup(it.lesson, it.time, font = FONT_SIZE)
-                    }
-                }
-            }
-        }
-        item {
-            OutlinedCard(
-                colors = CardDefaults.cardColors(
-                    containerColor = Color(0xFF6200EE)
-                ),
-                modifier = Modifier
-                    .size(width = 350.dp, height = 470.dp)
-                    .fillMaxWidth()
-                    .padding(10.dp)
-//                    .clickable { navController.navigate(Screens.Friday.route) }
-                ,
-                elevation = CardDefaults.cardElevation(15.dp)
-            ) {
-                Textap(text = "Пятница")
-                LazyColumn{
-                    items(listFriday) {
-                        Textup(it.lesson,it.time, font = FONT_SIZE)
-                    }
-                }
-            }
-        }
-        item {
-            OutlinedCard(colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF6200EE)
-            ),
-                modifier = Modifier
-                    .size(width = 350.dp, height = 470.dp)
-                    .fillMaxWidth()
-                    .padding(10.dp, bottom = 90.dp)
-//                    .clickable { navController.navigate(Screens.Saturday.route) }
-                ,
-                elevation = CardDefaults.cardElevation(15.dp)
-            ) {
-                Textap(text = "Суббота")
-                LazyColumn{
-                    items(listSaturday) {
-                        Textup(it.lesson,it.time, font = FONT_SIZE)
-                    }
-                }
-            }
-        }
+
+//        item {
+//            OutlinedCard (
+//                colors = CardDefaults.cardColors(
+//                    containerColor = Color(0xFF6200EE)
+//                ),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(300.dp)
+//                    .padding(10.dp)
+//                    .clickable {
+////                        navController.navigate(Screens.Week.route)
+//                    },
+//                elevation = CardDefaults.cardElevation(15.dp)
+//            ) {
+//                Textap("Понедельник")
+//                LazyColumn{
+//                    items(listMonday) {
+//                        Textup(it.lesson, it.time, font = FONT_SIZE)
+//                    }
+//                }
+//            }
+//        }
+//        item {
+//            OutlinedCard(
+//                colors = CardDefaults.cardColors(
+//                    containerColor = Color(0xFF6200EE)
+//                ),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(300.dp)
+//                    .padding(10.dp)
+////                    .clickable { navController.navigate(Screens.Tuesday.route) }
+//                   ,
+//                elevation = CardDefaults.cardElevation(15.dp)
+//            ) {
+//                Textap("Вторник")
+//                LazyColumn{
+//                    items(listTuesday) {
+//                        Textup(it.lesson, it.time, font = FONT_SIZE)
+//                    }
+//                }
+//            }
+//        }
+//        item {
+//            OutlinedCard(
+//                colors = CardDefaults.cardColors(
+//                    containerColor = Color(0xFF6200EE)
+//                ),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(300.dp)
+//                    .padding(10.dp)
+////                    .clickable { navController.navigate(Screens.Wednesday.route) }
+//                ,
+//                elevation = CardDefaults.cardElevation(15.dp)
+//            ) {
+//                Textap(text = "Среда")
+//                LazyColumn{
+//                    items(listWednesday) {
+//                        Textup(it.lesson, it.time, font = FONT_SIZE)
+//                    }
+//                }
+//            }
+//        }
+//        item {
+//            OutlinedCard(
+//                colors = CardDefaults.cardColors(
+//                    containerColor = Color(0xFF6200EE)
+//                ),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(300.dp)
+//                    .padding(10.dp)
+////                    .clickable { navController.navigate(Screens.Thursday.route) }
+//                ,
+//                elevation = CardDefaults.cardElevation(15.dp)
+//            ) {
+//                Textap(text = "Четверг")
+//                LazyColumn{
+//                    items(listThursday) {
+//                        Textup(it.lesson, it.time, font = FONT_SIZE)
+//                    }
+//                }
+//            }
+//        }
+//        item {
+//            OutlinedCard(
+//                colors = CardDefaults.cardColors(
+//                    containerColor = Color(0xFF6200EE)
+//                ),
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .height(300.dp)
+//                    .padding(10.dp)
+////                    .clickable { navController.navigate(Screens.Friday.route) }
+//                ,
+//                elevation = CardDefaults.cardElevation(15.dp)
+//            ) {
+//                Textap(text = "Пятница")
+//                LazyColumn{
+//                    items(listFriday) {
+//                        Textup(it.lesson,it.time, font = FONT_SIZE)
+//                    }
+//                }
+//            }
+//        }
+//        item {
+//            OutlinedCard(colors = CardDefaults.cardColors(
+//                containerColor = Color(0xFF6200EE)
+//            ),
+//                modifier = Modifier
+//                    .padding(10.dp)
+//                    .fillMaxWidth()
+//                    .height(300.dp)
+////                    .clickable { navController.navigate(Screens.Saturday.route) }
+//                ,
+//                elevation = CardDefaults.cardElevation(15.dp)
+//            ) {
+//                Textap(text = "Суббота")
+//                LazyColumn{
+//                    items(listSaturday) {
+//                        Textup(it.lesson,it.time, font = FONT_SIZE)
+//                    }
+//                }
+//            }
+//        }
 
         item {
             Text(text = "Ден всегда рядом...")
@@ -182,12 +208,37 @@ fun Home(
 }
 
 @Composable
-fun Textap(text: String) {
-    Text(text = text, fontSize = 30.sp, modifier = Modifier.padding(10.dp))
+fun TextTop(text: String) {
+    Text(text = text, fontSize = 30.sp, modifier = Modifier.padding(10.dp), color = Color.White)
 }
 
 @Composable
-fun Textup(textLesson: String, time: String,  font: Int) {
-    Text(text = "$textLesson\n$time", fontSize = font.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp))
+fun TextDis(textLesson: String, time: String,  font: Int) {
+    Text(text = "$textLesson\n$time", fontSize = font.sp, modifier = Modifier.padding(start = 10.dp, top = 10.dp), color = Color.White)
     Divider()
+}
+
+@Composable
+fun ItemLazyColumn(list: List<Week_Entity>, title: String) {
+    val fontSize = 20
+    OutlinedCard (
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFF6200EE)
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp)
+            .padding(10.dp)
+            .clickable {
+//                        navController.navigate(Screens.Week.route)
+            },
+        elevation = CardDefaults.cardElevation(15.dp)
+    ) {
+        TextTop(title)
+        LazyColumn{
+            items(list) {
+                TextDis(it.lesson, it.time, font = fontSize)
+            }
+        }
+    }
 }

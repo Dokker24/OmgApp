@@ -51,23 +51,19 @@ fun AnimatedSplashScreen(navController: NavController) {
 
 @Composable
 fun Splash(alpha: Float) {
-        Box (
-            modifier = Modifier
-                .background(Color(0xFF6200EE))
-                .alpha(alpha),
-            contentAlignment = Alignment.Center
-        ) {
+    Box(
+        modifier = Modifier
+            .background(Color(0xFF6200EE))
+            .alpha(alpha),
+        contentAlignment = Alignment.Center
+    ) {
 //                Icon(Icons.Default.Build,
 //                    contentDescription = "Ден",
 //                    tint = Color.White,
 //                    modifier = Modifier.size(120.dp)
 //                )
-                Image(
-                    painter = painterResource(if((Math.random() * 100).toInt() == 52) R.drawable.denis else R.drawable.den),
-                    contentDescription = "Ден",
-                    modifier = Modifier.size(220.dp)
-                )
 
-        }
+        Image(painter = painterResource(id = R.drawable.ogo), contentDescription = "splash")
+    }
 
 }

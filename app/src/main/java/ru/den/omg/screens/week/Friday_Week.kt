@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
@@ -57,9 +58,9 @@ import ru.den.omg.viewModels.MainViewModel
 @Composable
 fun Friday_Week(
     navController: NavController,
-    context: Context,
     fridayViewModel: FridayViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val list = fridayViewModel.itemList.collectAsState(initial = emptyList())
     OmgTheme {
         Scaffold(
@@ -145,18 +146,18 @@ fun Friday_Week(
 
 
                 }
-                LazyColumn {
-                    items(list.value) { item ->
-                        ListItem(item, {
-                            fridayViewModel.deleteItem(item)
-                        }, {
-                           fridayViewModel.sendNotify(context, item)
-                        }, { fri ->
-                            fridayViewModel.friday = fri
-                            fridayViewModel.newText = fri.lesson
-                        })
-                    }
-                }
+//                LazyColumn {
+//                    items(list.value) { item ->
+//                        ListItem(item, {
+//                            fridayViewModel.deleteItem(item)
+//                        }, {
+//                           fridayViewModel.sendNotify(context, item)
+//                        }, { fri ->
+//                            fridayViewModel.friday = fri
+//                            fridayViewModel.newText = fri.lesson
+//                        })
+//                    }
+//                }
             }
             it
         }

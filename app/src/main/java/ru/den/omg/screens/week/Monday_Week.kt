@@ -1,8 +1,7 @@
 
 package ru.den.omg.screens.week
 
-import android.content.Context
-import android.widget.Toast
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,12 +40,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import ru.den.omg.R
 import ru.den.omg.data.entity.Monday_Entity
@@ -54,117 +53,117 @@ import ru.den.omg.navigations.bottomNavigation.BottomAppBar
 import ru.den.omg.ui.theme.OmgTheme
 import ru.den.omg.viewModels.MainViewModel
 
-@Composable
-fun Monday_Week(
-    navController: NavController,
-    context: Context,
-    mondayViewModel: MainViewModel = hiltViewModel()
-) {
-    val list = mondayViewModel.itemList.collectAsState(initial = emptyList())
-    OmgTheme {
-        Scaffold(
-            bottomBar = { BottomAppBar(navController = navController) },
-            containerColor = Color(0xFF9CE59E)
-        ) {
-            TopBarWeek(navController = navController, title = stringResource(id = R.string.monday))
-            Column(modifier = Modifier.padding(top = 60.dp)) {
-                Column {
-                    OutlinedTextField(value = mondayViewModel.newText,
-                        onValueChange = { item ->
-                            mondayViewModel.newText = item
-                        }, label = { Text(text = "Введите урок") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 5.dp, top = 5.dp, end = 5.dp),
-                        singleLine = true,
-                        shape = RoundedCornerShape(8.dp),
-                        trailingIcon = {
-                            IconButton(
-                                onClick = {
-                                    if (mondayViewModel.newText != "") mondayViewModel.insertItem()
-                                },
-                                modifier = Modifier
-                                    .padding(10.dp)
-                            ) {
-                                Icon(Icons.Default.Add, contentDescription = "Add")
-                            }
-                        },
-                        colors = TextFieldDefaults.colors(
-                            unfocusedIndicatorColor = Color(0xFF6200EE),
-                            disabledIndicatorColor = Color(0xFF6200EE),
-                            focusedIndicatorColor = Color(0xFF6200EE),
-                            focusedContainerColor = Color.Transparent.copy(alpha = 0.7f),
-                            unfocusedContainerColor = Color.Transparent.copy(alpha = 0.7f),
+//@Composable
+//fun Monday_Week(
+//    navController: NavController,
+//    mondayViewModel: MainViewModel = hiltViewModel()
+//) {
+//    val context = LocalContext.current
+//    val list = mondayViewModel.itemList.collectAsState(initial = emptyList())
+//    OmgTheme {
+//        Scaffold(
+//            bottomBar = { BottomAppBar(navController = navController) },
+//            containerColor = Color(0xFF9CE59E)
+//        ) {
+//            TopBarWeek(navController = navController, title = stringResource(id = R.string.monday))
+//            Column(modifier = Modifier.padding(top = 60.dp)) {
+//                Column {
+//                    OutlinedTextField(value = mondayViewModel.newText,
+//                        onValueChange = { item ->
+//                            mondayViewModel.newText = item
+//                        }, label = { Text(text = "Введите урок") },
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(start = 5.dp, top = 5.dp, end = 5.dp),
+//                        singleLine = true,
+//                        shape = RoundedCornerShape(8.dp),
+//                        trailingIcon = {
+//                            IconButton(
+//                                onClick = {
+//                                    if (mondayViewModel.newText != "") mondayViewModel.insertItem()
+//                                },
+//                                modifier = Modifier
+//                                    .padding(10.dp)
+//                            ) {
+//                                Icon(Icons.Default.Add, contentDescription = "Add")
+//                            }
+//                        },
+//                        colors = TextFieldDefaults.colors(
+//                            unfocusedIndicatorColor = Color(0xFF6200EE),
+//                            disabledIndicatorColor = Color(0xFF6200EE),
+//                            focusedIndicatorColor = Color(0xFF6200EE),
+//                            focusedContainerColor = Color.Transparent.copy(alpha = 0.7f),
+//                            unfocusedContainerColor = Color.Transparent.copy(alpha = 0.7f),
+//
+//
+//
+//                            // если ошибка
+//                            errorSuffixColor = Color.Red,
+//                            errorCursorColor = Color.Red,
+//                            errorIndicatorColor = Color.Red,
+//                            errorLabelColor = Color.Red,
+//                            errorLeadingIconColor = Color.Red,
+//                            errorTrailingIconColor = Color.Red
+//                        ),
+//                        isError = MainViewModel.isNumeric(mondayViewModel.newText)
+//                    )
+//                        Card(
+//                            colors = CardDefaults.cardColors(
+//                                containerColor = Color(0xFF6200EE)
+//                            ),
+//                            modifier = Modifier
+//                                .padding(5.dp)
+//                                .size(200.dp, 50.dp)
+//                        ) {
+//                            Row {
+//                                TextField(value = mondayViewModel.newTimeBefore,
+//                                    onValueChange = { mondayViewModel.newTimeBefore = it },
+//                                    colors = TextFieldDefaults.colors(
+//                                        focusedIndicatorColor = Color.Transparent,
+//                                        unfocusedIndicatorColor = Color.Transparent,
+//                                        disabledContainerColor = Color.Transparent,
+//                                        focusedContainerColor = Color.Transparent,
+//                                        unfocusedContainerColor = Color.Transparent
+//                                    ),
+//                                    modifier = Modifier.size(90.dp, 60.dp),
+//                                    isError = mondayViewModel.newTimeBefore >= mondayViewModel.newTimeAfter,
+//                                    singleLine = true)
+//                                Text(" - ", fontSize = 20.sp, modifier = Modifier.padding(start = 0.dp, 20.dp))
+//                                TextField(value = mondayViewModel.newTimeAfter,
+//                                    onValueChange = { mondayViewModel.newTimeAfter = it },
+//                                    colors = TextFieldDefaults.colors(
+//                                        focusedIndicatorColor = Color.Transparent,
+//                                        unfocusedIndicatorColor = Color.Transparent,
+//                                        disabledLabelColor = Color.Transparent,
+//                                        focusedContainerColor = Color.Transparent,
+//                                        unfocusedContainerColor = Color.Transparent
+//                                    ),
+//                                    modifier = Modifier.size(120.dp, 60.dp),
+//                                    isError = mondayViewModel.newTimeBefore >= mondayViewModel.newTimeAfter,
+//                                    singleLine = true)
+//                            }
+//
+//                    }
+//                }
 
 
-
-                            // если ошибка
-                            errorSuffixColor = Color.Red,
-                            errorCursorColor = Color.Red,
-                            errorIndicatorColor = Color.Red,
-                            errorLabelColor = Color.Red,
-                            errorLeadingIconColor = Color.Red,
-                            errorTrailingIconColor = Color.Red
-                        ),
-                        isError = MainViewModel.isNumeric(mondayViewModel.newText)
-                    )
-                        Card(
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color(0xFF6200EE)
-                            ),
-                            modifier = Modifier
-                                .padding(5.dp)
-                                .size(200.dp, 50.dp)
-                        ) {
-                            Row {
-                                TextField(value = mondayViewModel.newTimeBefore,
-                                    onValueChange = { mondayViewModel.newTimeBefore = it },
-                                    colors = TextFieldDefaults.colors(
-                                        focusedIndicatorColor = Color.Transparent,
-                                        unfocusedIndicatorColor = Color.Transparent,
-                                        disabledContainerColor = Color.Transparent,
-                                        focusedContainerColor = Color.Transparent,
-                                        unfocusedContainerColor = Color.Transparent
-                                    ),
-                                    modifier = Modifier.size(90.dp, 60.dp),
-                                    isError = mondayViewModel.newTimeBefore >= mondayViewModel.newTimeAfter,
-                                    singleLine = true)
-                                Text(" - ", fontSize = 20.sp, modifier = Modifier.padding(start = 0.dp, 20.dp))
-                                TextField(value = mondayViewModel.newTimeAfter,
-                                    onValueChange = { mondayViewModel.newTimeAfter = it },
-                                    colors = TextFieldDefaults.colors(
-                                        focusedIndicatorColor = Color.Transparent,
-                                        unfocusedIndicatorColor = Color.Transparent,
-                                        disabledLabelColor = Color.Transparent,
-                                        focusedContainerColor = Color.Transparent,
-                                        unfocusedContainerColor = Color.Transparent
-                                    ),
-                                    modifier = Modifier.size(120.dp, 60.dp),
-                                    isError = mondayViewModel.newTimeBefore >= mondayViewModel.newTimeAfter,
-                                    singleLine = true)
-                            }
-
-                    }
-                }
-
-
-                LazyColumn(modifier = Modifier.padding(bottom = it.calculateBottomPadding())) {
-                    items(list.value) { item ->
-                        ListItem(item = item, {
-                            mondayViewModel.deleteItem(item)
-                        }, {
-                            mondayViewModel.sendNotify(item = item, context = context)
-                        },
-                            { mon ->
-                                mondayViewModel.monday = mon
-                                mondayViewModel.newText = mon.lesson
-                            })
-                    }
-                }
-            }
-        }
-    }
-}
+//                LazyColumn(modifier = Modifier.padding(bottom = it.calculateBottomPadding())) {
+//                    items(list.value) { item ->
+//                        ListItem(item = item, {
+//                            mondayViewModel.deleteItem(item)
+//                        }, {
+//                            mondayViewModel.sendNotify(item = item, context = context)
+//                        },
+//                            { mon ->
+//                                mondayViewModel.monday = mon
+//                                mondayViewModel.newText = mon.lesson
+//                            })
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 
 @Composable

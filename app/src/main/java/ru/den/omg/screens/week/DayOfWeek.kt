@@ -1,6 +1,5 @@
 package ru.den.omg.screens.week
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,39 +38,42 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.flow.Flow
 import ru.den.omg.R
-import ru.den.omg.data.entity.Friday_Entity
-import ru.den.omg.data.entity.Saturday_Entity
+import ru.den.omg.data.entity.Week_Entity
 import ru.den.omg.navigations.bottomNavigation.BottomAppBar
 import ru.den.omg.ui.theme.OmgTheme
 import ru.den.omg.viewModels.MainViewModel
-import ru.den.omg.viewModels.SaturdayViewModel
+
 
 @Composable
-fun Saturday_Week(
-    saturdayViewModel: SaturdayViewModel = hiltViewModel(),
+fun DayOfWeek(
     navController: NavController,
-    context: Context
+    viewModel: DayOfWeekViewModel = hiltViewModel(),
+    list: Flow<List<Week_Entity>>,
+    title: String
 ) {
-    val list = saturdayViewModel.itemList.collectAsState(initial = emptyList())
+    val listLessons = list.collectAsState(initial = emptyList())
+    val context = LocalContext.current
     OmgTheme {
         Scaffold(
             bottomBar = { BottomAppBar(navController = navController) },
             containerColor = Color(0xFF9CE59E)
         ) {
-            TopBarWeek(navController = navController, title = stringResource(id = R.string.saturday))
+            TopBarWeek(navController = navController, title = title)
             Column(modifier = Modifier.padding(top = 60.dp)) {
                 Column {
-                    OutlinedTextField(value = saturdayViewModel.newText,
+                    OutlinedTextField(
+                        value = viewModel.newText,
                         onValueChange = { item ->
-                            saturdayViewModel.newText = item
+                            viewModel.newText = item
                         }, label = { Text(text = "Введите урок") },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -81,7 +83,7 @@ fun Saturday_Week(
                         trailingIcon = {
                             IconButton(
                                 onClick = {
-                                    if (saturdayViewModel.newText != "") saturdayViewModel.insertItem()
+                                    if (viewModel.newText != "") viewModel.insertItem()
                                 },
                                 modifier = Modifier
                                     .padding(10.dp)
@@ -96,8 +98,7 @@ fun Saturday_Week(
                             focusedContainerColor = Color.Transparent.copy(alpha = 0.7f),
                             unfocusedContainerColor = Color.Transparent.copy(alpha = 0.7f),
 
-
-
+                            // если ошибка
                             errorSuffixColor = Color.Red,
                             errorCursorColor = Color.Red,
                             errorIndicatorColor = Color.Red,
@@ -105,7 +106,7 @@ fun Saturday_Week(
                             errorLeadingIconColor = Color.Red,
                             errorTrailingIconColor = Color.Red
                         ),
-                        isError = MainViewModel.isNumeric(saturdayViewModel.newText)
+                        isError = MainViewModel.isNumeric(viewModel.newText)
                     )
                     Card(
                         colors = CardDefaults.cardColors(
@@ -116,8 +117,8 @@ fun Saturday_Week(
                             .size(200.dp, 50.dp)
                     ) {
                         Row {
-                            TextField(value = saturdayViewModel.newTimeBefore,
-                                onValueChange = { saturdayViewModel.newTimeBefore = it },
+                            TextField(value = viewModel.newTimeBefore,
+                                onValueChange = { viewModel.newTimeBefore = it },
                                 colors = TextFieldDefaults.colors(
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
@@ -126,10 +127,11 @@ fun Saturday_Week(
                                     unfocusedContainerColor = Color.Transparent
                                 ),
                                 modifier = Modifier.size(90.dp, 60.dp),
+                                isError = viewModel.newTimeBefore >= viewModel.newTimeAfter,
                                 singleLine = true)
                             Text(" - ", fontSize = 20.sp, modifier = Modifier.padding(start = 0.dp, 20.dp))
-                            TextField(value = saturdayViewModel.newTimeAfter,
-                                onValueChange = { saturdayViewModel.newTimeAfter = it },
+                            TextField(value = viewModel.newTimeAfter,
+                                onValueChange = { viewModel.newTimeAfter = it },
                                 colors = TextFieldDefaults.colors(
                                     focusedIndicatorColor = Color.Transparent,
                                     unfocusedIndicatorColor = Color.Transparent,
@@ -138,34 +140,36 @@ fun Saturday_Week(
                                     unfocusedContainerColor = Color.Transparent
                                 ),
                                 modifier = Modifier.size(120.dp, 60.dp),
+                                isError = viewModel.newTimeBefore >= viewModel.newTimeAfter,
                                 singleLine = true)
                         }
-                    }
 
+                    }
                 }
-                LazyColumn {
-                    items(list.value) { item ->
-                        ListItem(item, {
-                            saturdayViewModel.deleteItem(item)
+
+                LazyColumn(modifier = Modifier.padding(bottom = it.calculateBottomPadding())) {
+                    items(listLessons.value) { item ->
+                        ListItem(item = item, {
+                            viewModel.deleteItem(item)
                         }, {
-                            saturdayViewModel.sendNotify(context, item)
-                        }, { sat ->
-                            saturdayViewModel.saturday = sat
-                            saturdayViewModel.newText = sat.lesson
-                        })
+                            viewModel.sendNotify(item = item, context = context)
+                        },
+                            { day ->
+                                viewModel.day = day
+                                viewModel.newText = day.lesson
+                            })
                     }
                 }
             }
-            it
         }
     }
 }
 
 @Composable
-fun ListItem(item: Saturday_Entity,
-             onDelete: (Saturday_Entity) -> Unit,
-             sendNotify: (Saturday_Entity) -> Unit,
-             redact: (Saturday_Entity) -> Unit) {
+fun ListItem(item: Week_Entity,
+             onDelete: (Week_Entity) -> Unit,
+             sendNotify: (Week_Entity) -> Unit,
+             redact: (Week_Entity) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     Card(modifier = Modifier
         .fillMaxWidth()

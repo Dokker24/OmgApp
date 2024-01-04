@@ -22,14 +22,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import ru.den.omg.R
 import ru.den.omg.converter.Top
@@ -42,10 +41,9 @@ import ru.den.omg.viewModels.MainViewModel
 @Composable
 fun CalendarScreen(
     navController: NavHostController,
-    context: Context,
     mondayViewModel: CalendarViewModel = hiltViewModel()
     ) {
-    OmgTheme {
+    val context = LocalContext.current
         Scaffold(
             bottomBar = { BottomAppBar(navController = navController) },
             topBar = {
@@ -109,4 +107,3 @@ fun CalendarScreen(
             }
         }
     }
-}

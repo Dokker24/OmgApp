@@ -48,7 +48,6 @@ class MainViewModel @Inject constructor(val database: Mine_Data24) : ViewModel()
         database.dao.insertItem(lesson)
         monday = null
         newText = ""
-
     }
 
 

@@ -9,7 +9,7 @@ import ru.den.omg.time.TimeForDatabase
 data class Tuesday_Entity(
     @PrimaryKey(true)
     val id: Int? = null,
-    val lesson: String,
+    override val lesson: String,
     @ColumnInfo(defaultValue = "")
-    val time: String = ""
-)
+    override val time: String = ""
+) : Week_Entity(lesson, time)

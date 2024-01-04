@@ -35,7 +35,7 @@ class MainActivity @Inject constructor() : ComponentActivity() {
                 )
                 {
                     val navController = rememberNavController()
-                    NavGraph(navController = navController, context = this)
+                    NavGraph(navController = navController)
                 }
             }
         }

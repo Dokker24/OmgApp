@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "monday_entity")
 data class Monday_Entity(
     @PrimaryKey(true) val id: Int? = null,
-    val lesson: String,
+    override val lesson: String,
     @ColumnInfo(defaultValue = "")
-    val time: String = ""
-)
+    override val time: String = ""
+) : Week_Entity(lesson, time)
