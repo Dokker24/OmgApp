@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
-package ru.den.omg.viewModels
+package ru.den.omg.screens.calendar
 
 
 import android.content.Context
@@ -12,12 +12,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.CreationExtras
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import ru.den.omg.App
 import ru.den.omg.data.Mine_Data24
 import ru.den.omg.data.entity.Calendar_Entity
 import java.text.SimpleDateFormat
@@ -30,11 +27,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(val database: Mine_Data24) : ViewModel() {
-    val datepick = Calendar.getInstance()
+    private val datepick = Calendar.getInstance()
 
 
-    val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
-    val gregorianCalendar = GregorianCalendar(TimeZone.getTimeZone("RU"))
+    private val sdf = SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault())
+   private val gregorianCalendar = GregorianCalendar(TimeZone.getTimeZone("RU"))
 
 
     private fun getDateToString(time: Long?): String {

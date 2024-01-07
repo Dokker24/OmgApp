@@ -1,5 +1,6 @@
 package ru.den.omg.screens.week
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,10 +48,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.Flow
 import ru.den.omg.R
+import ru.den.omg.data.entity.Friday_Entity
+import ru.den.omg.data.entity.Monday_Entity
+import ru.den.omg.data.entity.Saturday_Entity
+import ru.den.omg.data.entity.Thursday_Entity
+import ru.den.omg.data.entity.Tuesday_Entity
+import ru.den.omg.data.entity.Wednesday_Entity
 import ru.den.omg.data.entity.Week_Entity
 import ru.den.omg.navigations.bottomNavigation.BottomAppBar
-import ru.den.omg.ui.theme.OmgTheme
-import ru.den.omg.viewModels.MainViewModel
 
 
 @Composable
@@ -60,13 +65,12 @@ fun DayOfWeek(
     list: Flow<List<Week_Entity>>,
     title: String
 ) {
-    val listLessons = list.collectAsState(initial = emptyList())
-    val context = LocalContext.current
-    OmgTheme {
         Scaffold(
             bottomBar = { BottomAppBar(navController = navController) },
             containerColor = Color(0xFF9CE59E)
         ) {
+            val listLessons = list.collectAsState(initial = emptyList())
+            val context = LocalContext.current
             TopBarWeek(navController = navController, title = title)
             Column(modifier = Modifier.padding(top = 60.dp)) {
                 Column {
@@ -83,7 +87,7 @@ fun DayOfWeek(
                         trailingIcon = {
                             IconButton(
                                 onClick = {
-                                    if (viewModel.newText != "") viewModel.insertItem()
+                                    if (viewModel.newText != "") viewModel.insertItem(title)
                                 },
                                 modifier = Modifier
                                     .padding(10.dp)
@@ -106,7 +110,7 @@ fun DayOfWeek(
                             errorLeadingIconColor = Color.Red,
                             errorTrailingIconColor = Color.Red
                         ),
-                        isError = MainViewModel.isNumeric(viewModel.newText)
+                        isError = DayOfWeekViewModel.isNumeric(viewModel.newText)
                     )
                     Card(
                         colors = CardDefaults.cardColors(
@@ -150,20 +154,54 @@ fun DayOfWeek(
                 LazyColumn(modifier = Modifier.padding(bottom = it.calculateBottomPadding())) {
                     items(listLessons.value) { item ->
                         ListItem(item = item, {
-                            viewModel.deleteItem(item)
+                            viewModel.deleteItem(item, title, context)
                         }, {
                             viewModel.sendNotify(item = item, context = context)
                         },
                             { day ->
-                                viewModel.day = day
-                                viewModel.newText = day.lesson
+                                when(title) {
+                                    DayInWeek.Понедельник.toString() -> {
+                                        viewModel.monday = day as Monday_Entity
+                                        viewModel.newText = day.lesson
+                                    }
+
+                                    DayInWeek.Вторник.toString() -> {
+                                        viewModel.tuesday = day as Tuesday_Entity
+                                        viewModel.newText = day.lesson
+                                    }
+
+                                    DayInWeek.Среда.toString() -> {
+                                        viewModel.wednesday = day as Wednesday_Entity
+                                        viewModel.newText = day.lesson
+                                    }
+
+                                    DayInWeek.Четверг.toString() -> {
+                                        viewModel.thursday = day as Thursday_Entity
+                                        viewModel.newText = day.lesson
+                                    }
+
+                                    DayInWeek.Пятница.toString() -> {
+                                        viewModel.friday = day as Friday_Entity
+                                        viewModel.newText = day.lesson
+                                    }
+
+                                    DayInWeek.Суббота.toString() -> {
+                                        viewModel.saturday = day as Saturday_Entity
+                                        viewModel.newText = day.lesson
+                                    }
+
+                                    else -> {
+                                        viewModel.monday = day as Monday_Entity
+                                        viewModel.newText = day.lesson
+                                        Toast.makeText(context, "Ошибка", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
                             })
                     }
                 }
             }
         }
     }
-}
 
 @Composable
 fun ListItem(item: Week_Entity,

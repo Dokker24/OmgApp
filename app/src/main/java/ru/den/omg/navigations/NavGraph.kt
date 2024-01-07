@@ -1,20 +1,21 @@
 package ru.den.omg.navigations
 
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import ru.den.omg.screens.ListMonth
-import ru.den.omg.screens.ListWeek
+import ru.den.omg.screens.month.ListMonth
+import ru.den.omg.screens.week.ListWeek
 import ru.den.omg.screens.calendar.CalendarScreen
 import ru.den.omg.screens.home.HomeScreen
 import ru.den.omg.screens.settings.Settings_Screen
 import ru.den.omg.screens.splash.AnimatedSplashScreen
+import ru.den.omg.screens.week.DayInWeek
 import ru.den.omg.screens.week.DayOfWeek
 import ru.den.omg.screens.week.DayOfWeekViewModel
-import ru.den.omg.screens.week.Friday_Week
 
 
 
@@ -25,7 +26,12 @@ fun NavGraph(
     viewModel: DayOfWeekViewModel = hiltViewModel()
 ) {
 
-    val list = viewModel.listMon
+    val listMon = viewModel.listMon
+    val listTue = viewModel.listTue
+    val listWed = viewModel.listWed
+    val listThu = viewModel.listThu
+    val listFri = viewModel.listFri
+    val listSat = viewModel.listSat
 
     NavHost(navController = navController,
         startDestination = Screens.Splash.route) {
@@ -37,7 +43,8 @@ fun NavGraph(
 
         // Экран внесения предметов
         composable(Screens.Week.route) {
-            DayOfWeek(navController = navController, list = list, title = "Понедельник")
+            DayOfWeek(navController = navController, list = listMon, title = DayInWeek.Понедельник.toString())
+            Log.d("composable", DayInWeek.Понедельник.toString())
         }
 
         // Экран расписания
@@ -50,29 +57,29 @@ fun NavGraph(
             Settings_Screen(navController = navController)
         }
 
-//        composable(Screens.Tuesday.route) {
-//            Tuesday_Week(navController = navController)
-//        }
+        composable(Screens.Tuesday.route) {
+            DayOfWeek(navController = navController, list = listTue, title = DayInWeek.Вторник.toString())
+        }
 
-//        composable(Screens.Wednesday.route) {
-//            Wednesday_Week(navController = navController)
-//        }
+        composable(Screens.Wednesday.route) {
+            DayOfWeek(navController = navController, list = listWed, title = DayInWeek.Среда.toString())
+        }
 
-//        composable(Screens.Thursday.route) {
-//            Thursday_Week(navController)
-//        }
+        composable(Screens.Thursday.route) {
+            DayOfWeek(navController, list = listThu, title = DayInWeek.Четверг.toString())
+        }
 
         composable(Screens.Friday.route) {
-            Friday_Week(navController)
+            DayOfWeek(navController, list = listFri, title = DayInWeek.Пятница.toString())
         }
 
         composable(Screens.Calendar.route) {
             CalendarScreen(navController)
         }
 
-//        composable(Screens.Saturday.route) {
-//            Saturday_Week(navController = navController)
-//        }
+        composable(Screens.Saturday.route) {
+            DayOfWeek(navController = navController, list = listSat, title = DayInWeek.Суббота.toString())
+        }
 
         composable(Screens.Splash.route) {
             AnimatedSplashScreen(navController = navController)

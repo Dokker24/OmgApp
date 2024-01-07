@@ -3,7 +3,6 @@
 package ru.den.omg.screens.calendar
 
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,9 +32,7 @@ import androidx.navigation.NavHostController
 import ru.den.omg.R
 import ru.den.omg.converter.Top
 import ru.den.omg.navigations.bottomNavigation.BottomAppBar
-import ru.den.omg.ui.theme.OmgTheme
-import ru.den.omg.viewModels.CalendarViewModel
-import ru.den.omg.viewModels.MainViewModel
+import ru.den.omg.screens.week.DayOfWeekViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,7 +40,6 @@ fun CalendarScreen(
     navController: NavHostController,
     mondayViewModel: CalendarViewModel = hiltViewModel()
     ) {
-    val context = LocalContext.current
         Scaffold(
             bottomBar = { BottomAppBar(navController = navController) },
             topBar = {
@@ -51,7 +47,7 @@ fun CalendarScreen(
             },
             containerColor = Color(0xFF9CE59E)
         ) {
-
+            val context = LocalContext.current
             Column {
                 DatePicker(
                     state = mondayViewModel.date,
@@ -91,7 +87,7 @@ fun CalendarScreen(
                         errorLeadingIconColor = Color.Red,
                         errorTrailingIconColor = Color.Red
                     ),
-                    isError = MainViewModel.isNumeric(mondayViewModel.party),
+                    isError = DayOfWeekViewModel.isNumeric(mondayViewModel.party),
                     trailingIcon = {
                         IconButton(
                             onClick = {

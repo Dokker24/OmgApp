@@ -70,6 +70,8 @@ kapt {
 
 dependencies {
 
+    implementation("com.github.skydoves:cloudy:0.1.2")
+
     implementation("androidx.room:room-ktx:2.5.1")
     ksp("androidx.room:room-compiler:2.5.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0")

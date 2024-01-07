@@ -2,8 +2,8 @@ package ru.den.omg.navigations.tabNavigation
 
 import androidx.compose.runtime.Composable
 import ru.den.omg.R
-import ru.den.omg.screens.ListMonth
-import ru.den.omg.screens.ListWeek
+import ru.den.omg.screens.month.ListMonth
+import ru.den.omg.screens.week.ListWeek
 
 typealias ComposableFun = @Composable () -> Unit
 

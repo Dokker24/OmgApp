@@ -1,4 +1,4 @@
-package ru.den.omg.screens
+package ru.den.omg.screens.month
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ru.den.omg.data.entity.Calendar_Entity
-import ru.den.omg.viewModels.CalendarViewModel
+import ru.den.omg.screens.calendar.CalendarViewModel
 
 @Composable
 fun ListMonth(

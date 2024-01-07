@@ -1,3 +1,3 @@
 package ru.den.omg.data.entity
 
-open abstract class Week_Entity(open val lesson: String, open val time: String)
+abstract class Week_Entity(open val lesson: String, open val time: String)
